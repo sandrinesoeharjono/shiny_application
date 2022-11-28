@@ -5,7 +5,7 @@ library(dplyr)
 library(readr)
 
 # Load dataset
-data <- read_csv("data/iris.csv")
+data <- read_csv("iris.csv")
 
 # Define UI of application
 ui <- fluidPage(
