@@ -5,9 +5,9 @@ Examples of applications created using the Shiny package in R
 To create these applications, you must install the R programming language. For more information on how to do so on your machine, please see its [documentation](https://www.r-project.org/).
 
 ## Usage
-To launch the application, run the following command in the terminal:
+To launch the application, run the following command from the root of the repoository:
 ```bash
-R -e "shiny::runApp('app.R')"
+R -e "shiny::runApp('iris_application.R')"
 ```
 You will see a line appear such as the following:
 ```bash

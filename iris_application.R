@@ -21,10 +21,13 @@ ui <- fluidPage(
                 choices = unique(data$class)
             ),
 
+            # Sepal-specific selectors
+            HTML("<b>Sepal:</b>"),
+
             # Slider selector for sepal length
             sliderInput(
                 inputId = "sepal_length_range",
-                label = "Select a range of sepal length:",
+                label = "Range of sepal length:",
                 min = min(data$sepal_length),
                 max = max(data$sepal_length),
                 value = c(min(data$sepal_length), max(data$sepal_length))
@@ -33,16 +36,19 @@ ui <- fluidPage(
             # Slider selector for sepal width
             sliderInput(
                 inputId = "sepal_width_range",
-                "Select a range of sepal width:",
+                label = "Range of sepal width:",
                 min = min(data$sepal_width),
                 max = max(data$sepal_width),
                 value = c(min(data$sepal_width), max(data$sepal_width))
             ),
 
+            # Petal-specific selectors
+            HTML("<b>Petal:</b>"),
+
             # Slider selector for petal length
             sliderInput(
                 inputId = "petal_length_range",
-                label = "Select a range of petal length:",
+                label = "Range of petal length:",
                 min = min(data$petal_length),
                 max = max(data$petal_length),
                 value = c(min(data$petal_length), max(data$petal_length))
@@ -51,7 +57,7 @@ ui <- fluidPage(
             # Slider selector for petal width
             sliderInput(
                 inputId = "petal_width_range",
-                "Select a range of petal width:",
+                label = "Range of petal width:",
                 min = min(data$petal_width),
                 max = max(data$petal_width),
                 value = c(min(data$petal_width), max(data$petal_width))
@@ -60,7 +66,7 @@ ui <- fluidPage(
             # Selector of scatter colour
             selectInput(
                 inputId = "colour",
-                label = "Select a colour for the scatterplot:",
+                label = strong("Scatterplot colour:"),
                 choices = c("black", "red", "blue", "green", "orange", "purple")
             ),
 
@@ -90,6 +96,7 @@ ui <- fluidPage(
         # Main panel output: 2 scatterplots + reference
         mainPanel(
             plotOutput(outputId = "sepal_scatterplot", height = "300px"),
+            br(),
             plotOutput(outputId = "petal_scatterplot", height = "300px"),
             textOutput(outputId = "desc"),
             tags$a(
