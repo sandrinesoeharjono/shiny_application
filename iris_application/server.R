@@ -1,5 +1,6 @@
 # Load packages
 library(dplyr)
+library(ggplot2)
 
 # Import 'data' object from UI
 source("ui.R")
@@ -25,69 +26,38 @@ server <- function(input, output) {
             )
     })
 
-    # Create sepal scatterplot (length vs width)
+    # Create sepal scatterplot
     output$sepal_scatterplot <- renderPlot({
         # Verify that sufficient data are available to plot
         validate(need(nrow(selected_trends()) > 0, "Error: No data available to plot given the selected constraints."))
 
-        par(mar = c(4, 4, 1, 1))
-        plot(
-            main = paste0("Sepal properties of ", input$class),
-            x = selected_trends()$sepal_length,
-            y = selected_trends()$sepal_width,
-            type = "p",
-            pch = 16,
-            xlab = "Sepal length",
-            ylab = "Sepal width",
-            col = input$colour,
-            fg = "#ffffff",
-            col.lab = "#000000",
-            col.axis = "#000000"
-        )
-        box(col = "#000000")
-        
-        # Add smoothing curve if smoother selector is checked
-        if(input$smoother){
-            smooth_curve <- lowess(
-                x = as.numeric(selected_trends()$sepal_length),
-                y = selected_trends()$sepal_width,
-                f = input$f
-            )
-            lines(smooth_curve, col = input$colour, lwd = 3)
-        }
+        # Create scatterplot (length vs width)
+        ggplot(data = selected_trends(), aes(x = sepal_length, y = sepal_width)) +
+            ggtitle(paste0("Sepal properties of ", input$class)) +
+            theme(plot.title = element_text(hjust = 0.5, face = "bold")) +
+            xlab("Sepal length") +
+            ylab("Sepal width") +
+            geom_point(colour = input$colour) +
+            # Add smoothing curve if smoother selector is checked
+            {if(input$smoother) geom_smooth(method = "loess", size = 1.5, colour = input$colour)}
     })
 
-    # Create petal scatterplot (length vs width)
+    # Create petal scatterplot
     output$petal_scatterplot <- renderPlot({
         # Verify that sufficient data are available to plot
         validate(need(nrow(selected_trends()) > 0, "Error: No data available to plot given the selected constraints."))
-
-        par(mar = c(4, 4, 1, 1))
-        plot(
-            main = paste0("Petal properties of ", input$class),
-            x = selected_trends()$petal_length,
-            y = selected_trends()$petal_width,
-            type = "p",
-            pch = 16,
-            xlab = "Petal length",
-            ylab = "Petal width",
-            col = input$colour,
-            fg = "#ffffff",
-            col.lab = "#000000",
-            col.axis = "#000000"
-        )
-        box(col = "#000000")
         
-        # Add smoothing curve if smoother selector is checked
-        if(input$smoother){
-            smooth_curve <- lowess(
-                x = as.numeric(selected_trends()$petal_length),
-                y = selected_trends()$petal_width,
-                f = input$f
-            )
-            lines(smooth_curve, col = input$colour, lwd = 3)
-        }
-    
+        # Create scatterplot (length vs width)
+        ggplot(data = selected_trends(), aes(x = petal_length, y = petal_width)) +
+            ggtitle(paste0("Petal properties of ", input$class)) +
+            theme(plot.title = element_text(hjust = 0.5, face = "bold")) +
+            xlab("Petal length") +
+            ylab("Petal width") +
+            geom_point(colour = input$colour) +
+            # Add smoothing curve if smoother selector is checked
+            {if(input$smoother) geom_smooth(method = "loess", size = 1.5, colour = input$colour)}
+    })
+
     # Add table of selected data
     output$dataframe <- renderDataTable(
         selected_trends(),
@@ -95,5 +65,4 @@ server <- function(input, output) {
             style = 'caption-side: top; text-align: center; color:black; font-weight:bold;', 'Selected Dataset'
         )
     )
-    })
 }

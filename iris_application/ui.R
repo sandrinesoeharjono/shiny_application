@@ -10,6 +10,7 @@ data <- read_csv("iris.csv")
 
 # Define UI of application
 ui <- fluidPage(
+    tags$style('.container-fluid {background-color: #bddedf}'),
     theme = shinytheme("lumen"),
     titlePanel("Iris Dataset Exploration"),
     # Side panel: criteria for user selection
