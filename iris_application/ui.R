@@ -16,12 +16,14 @@ ui <- fluidPage(
     # Side panel: criteria for user selection
     sidebarLayout(
         sidebarPanel(
-            # Drop-down selector of class
+            # Drop-down selector of species
             selectInput(
-                inputId = "class",
-                label = strong("Class:"),
-                choices = unique(data$class)
+                inputId = "species",
+                label = strong("Species:"),
+                choices = unique(data$species)
             ),
+
+            br(),
 
             # Sepal-specific selectors
             HTML("<b>Sepal:</b>"),
@@ -44,6 +46,8 @@ ui <- fluidPage(
                 value = c(min(data$sepal_width), max(data$sepal_width))
             ),
 
+            br(),
+
             # Petal-specific selectors
             HTML("<b>Petal:</b>"),
 
@@ -65,6 +69,8 @@ ui <- fluidPage(
                 value = c(min(data$petal_width), max(data$petal_width))
             ),
 
+            br(),
+
             # Selector of scatter colour
             selectInput(
                 inputId = "colour",
@@ -75,32 +81,17 @@ ui <- fluidPage(
             # Checkbox selector for addition of overlaid smooth trend line
             checkboxInput(
                 inputId = "smoother",
-                label = strong("Overlay smooth trend line"),
+                label = strong("Overlay 'loess' smooth trend line"),
                 value = FALSE
-            ),
-
-            # Slider selector for smoother span (to show only if 'smoother' is checked)
-            conditionalPanel(
-                condition = "input.smoother == true",
-                sliderInput(
-                    inputId = "f",
-                    label = "Smoother span:",
-                    min = 0.01,
-                    max = 1,
-                    value = 0.67,
-                    step = 0.01,
-                    animate = animationOptions(interval = 100)
-                ),
-                HTML("Higher values give more smoothness.")
             )
         ),
 
         # Main panel output: 2 scatterplots + reference
         mainPanel(
             plotOutput(outputId = "sepal_scatterplot", height = "300px"),
-            br(),
+            br(), br(),
             plotOutput(outputId = "petal_scatterplot", height = "300px"),
-            br(),
+            br(), br(),
             DT::dataTableOutput("dataframe"),
             textOutput(outputId = "desc"),
             tags$a(
