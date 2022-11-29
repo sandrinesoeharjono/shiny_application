@@ -3,6 +3,7 @@ library(shiny)
 library(shinythemes)
 library(dplyr)
 library(readr)
+library(DT)
 
 # Load iris dataset
 data <- read_csv("iris.csv")
@@ -98,6 +99,8 @@ ui <- fluidPage(
             plotOutput(outputId = "sepal_scatterplot", height = "300px"),
             br(),
             plotOutput(outputId = "petal_scatterplot", height = "300px"),
+            br(),
+            DT::dataTableOutput("dataframe"),
             textOutput(outputId = "desc"),
             tags$a(
                 href = "https://archive.ics.uci.edu/ml/datasets/iris",

@@ -87,5 +87,13 @@ server <- function(input, output) {
             )
             lines(smooth_curve, col = input$colour, lwd = 3)
         }
+    
+    # Add table of selected data
+    output$dataframe <- renderDataTable(
+        selected_trends(),
+        caption = htmltools::tags$caption(
+            style = 'caption-side: top; text-align: center; color:black; font-weight:bold;', 'Selected Dataset'
+        )
+    )
     })
 }
