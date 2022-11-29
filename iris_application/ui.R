@@ -4,15 +4,15 @@ library(shinythemes)
 library(dplyr)
 library(readr)
 
-# Load dataset
+# Load iris dataset
 data <- read_csv("iris.csv")
 
 # Define UI of application
 ui <- fluidPage(
     theme = shinytheme("lumen"),
-    titlePanel("Iris dataset exploration"),
+    titlePanel("Iris Dataset Exploration"),
+    # Side panel: criteria for user selection
     sidebarLayout(
-        # Side panel: criteria for user selection
         sidebarPanel(
             # Drop-down selector of class
             selectInput(

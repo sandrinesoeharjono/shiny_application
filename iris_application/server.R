@@ -1,25 +1,20 @@
 # Load packages
-library(shiny)
-library(shinythemes)
 library(dplyr)
-library(readr)
 
 # Import 'data' object from UI
 source("ui.R")
 
 # Define server function
 server <- function(input, output) {
-    # Validate the user-selected conditions & subset data accordingly
+    # Validate the user-selected conditions
     selected_trends <- reactive({
         req(input$sepal_length_range, input$sepal_width_range, input$petal_length_range, input$petal_width_range)
         validate(need(!is.na(input$sepal_length_range[1]) & !is.na(input$sepal_length_range[2]), "Error: Please select a range of sepal length."))
-        validate(need(input$sepal_length_range[1] < input$sepal_length_range[2], "Error: Minimum value should be smaller than maximum value."))
         validate(need(!is.na(input$sepal_width_range[1]) & !is.na(input$sepal_width_range[2]), "Error: Please select a range of sepal width."))
-        validate(need(input$sepal_width_range[1] < input$sepal_width_range[2], "Error: Minimum value should be smaller than maximum value."))
         validate(need(!is.na(input$petal_length_range[1]) & !is.na(input$petal_length_range[2]), "Error: Please select a range of petal length."))
-        validate(need(input$petal_length_range[1] < input$petal_length_range[2], "Error: Minimum value should be smaller than maximum value."))
         validate(need(!is.na(input$petal_width_range[1]) & !is.na(input$petal_width_range[2]), "Error: Please select a range of petal width."))
-        validate(need(input$petal_width_range[1] < input$petal_width_range[2], "Error: Minimum value should be smaller than maximum value."))
+        
+        # Subset data accordingly
         data %>%
             filter(
                 class == input$class,
@@ -32,6 +27,9 @@ server <- function(input, output) {
 
     # Create sepal scatterplot (length vs width)
     output$sepal_scatterplot <- renderPlot({
+        # Verify that sufficient data are available to plot
+        validate(need(nrow(selected_trends()) > 0, "Error: No data available to plot given the selected constraints."))
+
         par(mar = c(4, 4, 1, 1))
         plot(
             main = paste0("Sepal properties of ", input$class),
@@ -61,6 +59,9 @@ server <- function(input, output) {
 
     # Create petal scatterplot (length vs width)
     output$petal_scatterplot <- renderPlot({
+        # Verify that sufficient data are available to plot
+        validate(need(nrow(selected_trends()) > 0, "Error: No data available to plot given the selected constraints."))
+
         par(mar = c(4, 4, 1, 1))
         plot(
             main = paste0("Petal properties of ", input$class),
