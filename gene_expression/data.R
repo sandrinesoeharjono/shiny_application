@@ -1,4 +1,6 @@
 # Load packages
+library(dplyr)
+library(cluster)
 library(Biobase)
 library(GEOquery)
 #if (!requireNamespace("BiocManager", quietly = TRUE)) {
@@ -31,16 +33,32 @@ rownames(gexp_data) <- gexp_data$"Gene symbol"
 # Select columns of interest (i.e samples)
 gexp_data <- gexp_data %>%
     dplyr::select(dplyr::starts_with("GSM"))
-#head(gexp_data, 5)
+
+# Take transpose of dataset (rows=samples, columns=genes)
+t_gexp_data = t(gexp_data)
 
 # 1) PCA
 library(devtools)
 library(ggbiplot)
 set.seed(1234)
-pc <- prcomp(gexp_data, center = TRUE, scale. = TRUE)
+pc <- prcomp(t_gexp_data, center = TRUE, scale = TRUE)
 attributes(pc)
 
 # 2) Hierarchical clustering
+# Remove missing data
+data_no_na <- na.omit(t_gexp_data)
+# Standardize the data
+df <- scale(data_no_na)
+# Calculate the distance matrix
+dist_mat <- dist(df, method = "euclidean")
+# Hierarchical clustering using Complete Linkage
+hclust_complete <- hclust(dist_mat, method = "complete" )
+dhc_complete <- as.dendrogram(hclust_complete)
+dendro_complete <- dendro_data(dhc_complete, type = "rectangle")
+#plot(hclust_complete, cex = 0.6, hang = -1)
+# Hierarchical clustering using Average Linkage
+hclust_avg <- hclust(dist_mat, method = 'average')
+plot(hclust_avg)
 
 # 3) Differential expression
 

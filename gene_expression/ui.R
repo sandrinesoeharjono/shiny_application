@@ -1,5 +1,4 @@
 library(shiny)
-library(cluster)
 library(DT)
 library(wesanderson)
 library(shinythemes)
@@ -11,27 +10,42 @@ shinyUI(
         tabPanel(
             "Summary",
             icon = icon("clipboard"),
-            mainPanel(width = 12, strong("Overview"), htmlOutput("general")),
+            mainPanel(width = 12, strong("Overview"), htmlOutput("general_description")),
             DT::dataTableOutput("dataframe"),
-            tags$footer("sandrinesoeharjono@hotmail.com (2022)")
+            tags$footer("Sandrine Soeharjono (2022)")
         ),
         tabPanel(
             title = "PCA",
-            icon = icon("circle-nodes"),
-            tabPanel(
-                "PANEL NAME",
-                sidebarPanel(
-                    checkboxGroupInput(
-                        "pc",
-                        "Choose two principal components (PCs) for visualisation",
-                        choiceNames = paste0("PC",1:6),
-                        selected = c(1,2),
-                        choiceValues = 1:6
-                    )
-                ),
-                mainPanel(plotOutput(outputId = "pca")),
-                tags$footer("sandrinesoeharjono@hotmail.com (2022)")
-            )
+            icon = icon("fa-solid fa-share-nodes"),
+            sidebarPanel(
+                checkboxGroupInput(
+                    "pc",
+                    "Choose two principal components (PCs) for visualization:",
+                    choiceNames = paste0("PC",1:6),
+                    selected = c(1,2),
+                    choiceValues = 1:6
+                )
+            ),
+            mainPanel(
+                plotOutput(outputId = "pca"),
+                htmlOutput("pca_description")
+            ),
+            tags$footer("Sandrine Soeharjono (2022)")
+        ),
+        tabPanel(
+            title = "Hierarchical clustering",
+            icon = icon("fa-solid fa-sitemap"),
+            sidebarPanel(
+                sliderInput(
+                    inputId = "n_clusters",
+                    label = "Choose the desired number of clusters:",
+                    min = 1,
+                    max = 20,
+                    value = c(1, 20)
+                )
+            ),
+            mainPanel(plotOutput(outputId = "hierarchy")),
+            tags$footer("Sandrine Soeharjono (2022)")
         )
     )
 )
