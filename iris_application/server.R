@@ -32,7 +32,9 @@ server <- function(input, output) {
         validate(need(nrow(selected_trends()) > 0, "Error: No data available to plot given the selected constraints."))
 
         # Create scatterplot (length vs width)
-        ggplot(data = selected_trends(), aes(x = sepal_length, y = sepal_width)) +
+        ggplot(
+            data = selected_trends(),
+            aes(x = sepal_length, y = sepal_width)) +
             ggtitle(paste0("Sepal properties of ", input$species)) +
             theme(
                 text = element_text(family = "Helvetica Neue"),
