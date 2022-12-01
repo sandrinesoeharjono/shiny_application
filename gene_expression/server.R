@@ -48,13 +48,19 @@ server <- function(input, output, session) {
     })
 
     # Hierarchical clustering
+    hclust_obj <- reactive({
+      hclust(dist_mat, method = tolower(input$hclust_method))
+    })
+    dendro <- reactive({
+      dendro_data(as.dendrogram(hclust_obj()), type = "rectangle")
+    })
     output$hierarchy <- renderPlot({
-      ggplot(segment(dendro_complete)) + 
+      ggplot(segment(dendro())) + 
         geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) + 
         coord_flip() + 
         scale_y_reverse(expand = c(0.2, 0)) +
-        ggtitle("Hierarchical clustering of samples") +
-        xlab("Cluster distance") +
+        ggtitle("Hierarchical Clustering of Samples") +
+        xlab("Cluster Distance") +
         ylab("Samples") +
         theme(
           plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),

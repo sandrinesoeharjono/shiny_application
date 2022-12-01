@@ -52,13 +52,13 @@ df <- scale(data_no_na)
 # Calculate the distance matrix
 dist_mat <- dist(df, method = "euclidean")
 # Hierarchical clustering using Complete Linkage
-hclust_complete <- hclust(dist_mat, method = "complete" )
-dhc_complete <- as.dendrogram(hclust_complete)
-dendro_complete <- dendro_data(dhc_complete, type = "rectangle")
+#hclust_complete <- hclust(dist_mat, method = "complete")
+#dhc_complete <- as.dendrogram(hclust_complete)
+#dendro_complete <- dendro_data(dhc_complete, type = "rectangle")
 #plot(hclust_complete, cex = 0.6, hang = -1)
 # Hierarchical clustering using Average Linkage
-hclust_avg <- hclust(dist_mat, method = 'average')
-plot(hclust_avg)
+#hclust_avg <- hclust(dist_mat, method = 'average')
+#plot(hclust_avg)
 
 # 3) Differential expression
 

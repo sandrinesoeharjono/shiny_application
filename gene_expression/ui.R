@@ -3,9 +3,9 @@ library(DT)
 library(wesanderson)
 library(shinythemes)
 
-shinyUI(
+ui <- fluidPage(
     navbarPage(
-        title = strong("Gene Expression Analyses"),
+        title = "Gene Expression Analyses",
         theme = shinytheme("sandstone"),
         tabPanel(
             title = "Summary",
@@ -42,6 +42,12 @@ shinyUI(
                     min = 1,
                     max = 20,
                     value = c(1, 20)
+                ),
+                br(),
+                selectInput(
+                    inputId = "hclust_method",
+                    label = strong("Select the agglomerative method to use for clustering:"),
+                    choices = c("Complete", "Average", "McQuitty", "Median", "Centroid")
                 )
             ),
             mainPanel(
