@@ -44,30 +44,34 @@ server <- function(input, output, session) {
         plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
         axis.text = element_text(size = 11, colour = "#555555"),
         axis.title = element_text(size = 14, colour = "#555555"),
-        strip.text = element_blank()
       )
     })
 
     # Hierarchical clustering
     output$hierarchy <- renderPlot({
-      p <- ggplot(segment(dendro_complete)) + 
+      ggplot(segment(dendro_complete)) + 
         geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) + 
         coord_flip() + 
         scale_y_reverse(expand = c(0.2, 0)) +
-        ggtitle("Hierarchical clustering of samples")
-      #p <- ggdendrogram(hclust_complete, rotate = FALSE, size = 2)
-      ggplotly(p)
+        ggtitle("Hierarchical clustering of samples") +
+        xlab("Cluster distance") +
+        ylab("Samples") +
+        theme(
+          plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
+          axis.text = element_text(size = 11, colour = "#555555"),
+          axis.title = element_text(size = 14, colour = "#555555"),
+        )
     })
 
     # Text
     output$general_description <- renderUI({
       HTML(
         paste0(
-        "Here, I use a <a href='https://www.ncbi.nlm.nih.gov/geo/download/?acc=GDS5662'> publicly available dataset</a>
+        "This dashboard uses a <a href='https://www.ncbi.nlm.nih.gov/geo/download/?acc=GDS5662'> publicly available dataset</a>
         from <a href='https://www.ncbi.nlm.nih.gov/sites/GDSbrowser?acc=GDS5027'> Prat A, Bianchini G, Thomas M, Belousov A et al. (2014)</a> 
-        to demonstrate examples of gene expression data manipulation and interactive visualization of its results.
-        This dataset contains gene expression values for ", n_features, " features from ", n_samples, " samples of the ", organism,
-        " species from a ", title, ".<br><br><b>The tabs allow the user to explore the data through:</b><br>- PCA;<br>- Hierarchical clustering;<br>- Differential expression;<br>- Heatmap;<br>- GSEA.",
+        to showcase examples of gene expression data manipulation as well as interactive visualizations of its results.
+        This dataset contains gene expression values for ", n_features, " total features (reduced to 22,190 unique HGNC identifiers) from ", n_samples, " samples of the ", organism,
+        " species from a ", title, ".<br><br><b>The tabs above allow the user to explore the data through:</b><br>- PCA;<br>- Hierarchical clustering;<br>- Differential expression;<br>- Expression heatmap;<br>- GSEA.",
         "<br><br><b>Feel free to explore the raw expression dataset (rows = genes, columns = samples) below:</b><br><br>"
         )
       )
