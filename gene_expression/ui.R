@@ -8,7 +8,7 @@ shinyUI(
         title = strong("Gene Expression Analyses"),
         theme = shinytheme("sandstone"),
         tabPanel(
-            "Summary",
+            title = "Summary",
             icon = icon("clipboard"),
             mainPanel(width = 12, strong("Overview"), htmlOutput("general_description")),
             DT::dataTableOutput("dataframe"),
@@ -44,7 +44,10 @@ shinyUI(
                     value = c(1, 20)
                 )
             ),
-            mainPanel(plotOutput(outputId = "hierarchy")),
+            mainPanel(
+                plotOutput(outputId = "hierarchy"),
+                htmlOutput("hierarchy_description")
+            ),
             tags$footer("Sandrine Soeharjono (2022)")
         )
     )

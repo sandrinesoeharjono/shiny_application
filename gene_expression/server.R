@@ -81,4 +81,10 @@ server <- function(input, output, session) {
         problem (<a href='https://royalsocietypublishing.org/doi/10.1098/rsta.2015.0202'>Jolliffe IT & Cadima J, 2016</a>)."
       )
     })
+
+    output$hierarchy_description <- renderUI({
+      HTML(
+        "<b>Description:</b><br>Hierarchical clustering works by [definition]."
+      )
+    })
 }
