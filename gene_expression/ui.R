@@ -40,8 +40,8 @@ ui <- fluidPage(
                     inputId = "n_clusters",
                     label = "Select the desired number of clusters:",
                     min = 1,
-                    max = 20,
-                    value = c(1, 20)
+                    max = 15,
+                    value = 1
                 ),
                 br(),
                 selectInput(

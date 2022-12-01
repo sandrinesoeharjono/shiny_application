@@ -48,20 +48,20 @@ server <- function(input, output, session) {
     })
 
     # Hierarchical clustering
-    hclust_obj <- reactive({
-      hclust(dist_mat, method = tolower(input$hclust_method))
-    })
-    dendro <- reactive({
-      dendro_data(as.dendrogram(hclust_obj()), type = "rectangle")
-    })
+    hclust_obj <- reactive({hclust(dist_mat, method = tolower(input$hclust_method))})
+    dendro <- reactive({dendro_data(as.dendrogram(hclust_obj()), type = "rectangle")})
+    clusters <- reactive({cutree(hclust_obj(), k = input$n_clusters)})
+    clusters_df <- reactive({data.frame(label=names(clusters()), Cluster=factor(clusters()))})
+    labeled_samples = reactive({merge(dendro()[["labels"]], clusters_df(), by = "label")})
     output$hierarchy <- renderPlot({
       ggplot(segment(dendro())) + 
         geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) + 
+        geom_text(data = labeled_samples(), aes(x, y, label = label, hjust = 0, color = Cluster), size = 3) +
         coord_flip() + 
         scale_y_reverse(expand = c(0.2, 0)) +
-        ggtitle("Hierarchical Clustering of Samples") +
-        xlab("Cluster Distance") +
-        ylab("Samples") +
+        ggtitle(paste0("Hierarchical Clustering of Samples by the ", input$hclust_method, " Method")) +
+        ylab("Cluster Distance") +
+        xlab("Samples") +
         theme(
           plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
           axis.text = element_text(size = 11, colour = "#555555"),
