@@ -67,7 +67,7 @@ server <- function(input, output, session) {
         from <a href='https://www.ncbi.nlm.nih.gov/sites/GDSbrowser?acc=GDS5027'> Prat A, Bianchini G, Thomas M, Belousov A et al. (2014)</a> 
         to demonstrate examples of gene expression data manipulation and interactive visualization of its results.
         This dataset contains gene expression values for ", n_features, " features from ", n_samples, " samples of the ", organism,
-        " species from a ", title, ".<br><br><b>The tabs allow the user to explore:</b><br>- PCA;<br>- Hierarchical clustering;<br>- Differential expression;<br>- Heatmap;<br>- GSEA.",
+        " species from a ", title, ".<br><br><b>The tabs allow the user to explore the data through:</b><br>- PCA;<br>- Hierarchical clustering;<br>- Differential expression;<br>- Heatmap;<br>- GSEA.",
         "<br><br><b>Feel free to explore the raw expression dataset (rows = genes, columns = samples) below:</b><br><br>"
         )
       )
@@ -75,7 +75,10 @@ server <- function(input, output, session) {
 
     output$pca_description <- renderUI({
       HTML(
-        "PCA is a [description]."
+        "<b>Description:</b><br>PCA is a linear dimensionality reduction of data to project it onto a lower dimensional space.
+        It increases interpretability while minimizing information loss, by creating new uncorrelated variables 
+        that successively maximize variance. These principal components (PCs) reduce to solve an eigenvalue/eigenvector 
+        problem (<a href='https://royalsocietypublishing.org/doi/10.1098/rsta.2015.0202'>Jolliffe IT & Cadima J, 2016</a>)."
       )
     })
 }

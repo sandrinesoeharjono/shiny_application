@@ -16,11 +16,11 @@ shinyUI(
         ),
         tabPanel(
             title = "PCA",
-            icon = icon("fa-solid fa-share-nodes"),
+            icon = icon("fa-light fa-share-nodes"),
             sidebarPanel(
                 checkboxGroupInput(
                     "pc",
-                    "Choose two principal components (PCs) for visualization:",
+                    "Select two principal components (PCs) for visualization:",
                     choiceNames = paste0("PC",1:6),
                     selected = c(1,2),
                     choiceValues = 1:6
@@ -38,7 +38,7 @@ shinyUI(
             sidebarPanel(
                 sliderInput(
                     inputId = "n_clusters",
-                    label = "Choose the desired number of clusters:",
+                    label = "Select the desired number of clusters:",
                     min = 1,
                     max = 20,
                     value = c(1, 20)
