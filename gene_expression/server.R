@@ -69,6 +69,12 @@ server <- function(input, output, session) {
         )
     })
 
+    # Differential expression
+    output$diff_exp <- renderPlot({
+      # TODO
+      ggplot(segment(dendro()))
+    })
+
     # Text
     output$general_description <- renderUI({
       HTML(
@@ -100,12 +106,19 @@ server <- function(input, output, session) {
         "<b>Description:</b><br><a href='https://towardsdatascience.com/understanding-the-concept-of-hierarchical-clustering-technique-c6e8243758ec'>Hierarchical clustering</a> 
         is an unsupervised clustering technique used to identify groups in the dataset using the observations' hierarchy. It is an alternative to the supervised
         <a href='https://towardsdatascience.com/understanding-k-means-clustering-in-machine-learning-6a6e67336aa1'>K-means clustering</a> 
-        that does NOT require the user to pre-define the number of clusters, <i>k</i>. It can be separated into 2 types:<br>
+        that does NOT require the user to pre-define the number of clusters, <i>k</i>.<br><br>It can be separated into 2 types:<br>
         <b>1) Agglomerative hierarchical clustering</b>: Each data point is originally considered an individual cluster. Similar clusters are then merged together at each 
         iteration until the algorithm is stabilized. This can be thought of as a <i>bottom-up</i> approach.<br>
         <b>2) Divisive hierarchical clustering</b>: All data points begin in one large cluster, which gets split up recursively as the algorithm moves down the hierarchy. 
         This can be thought of as a <i>top-down</i> approach.<br><br>In this application, you can compare 5 different methods of agglomerative clustering using the left-side panel.
         The slider for the number of clusters allows you to select your desired level of granularity."
+      )
+    })
+
+    output$diff_exp_description <- renderUI({
+      HTML(
+        "<b>Description:</b><br><a href=''>Differential expression</a> 
+        is [blabla] ____."
       )
     })
 }

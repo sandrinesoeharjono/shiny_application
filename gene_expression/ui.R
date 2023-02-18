@@ -16,7 +16,7 @@ ui <- fluidPage(
         ),
         tabPanel(
             title = "PCA",
-            icon = icon("fa-light fa-share-nodes"),
+            icon = icon("fa-regular fa-chart-scatter"),
             sidebarPanel(
                 checkboxGroupInput(
                     "pc",
@@ -53,6 +53,24 @@ ui <- fluidPage(
             mainPanel(
                 plotOutput(outputId = "hierarchy"),
                 htmlOutput("hierarchy_description")
+            ),
+            tags$footer("Sandrine Soeharjono (2023)")
+        ),
+        tabPanel(
+            title = "Differential Expression",
+            icon = icon("fa-regular fa-dna"),
+            sidebarPanel(
+                sliderInput(
+                    inputId = "n_clusters",
+                    label = "Select the desired number of clusters:",
+                    min = 1,
+                    max = 15,
+                    value = 1
+                )
+            ),
+            mainPanel(
+                plotOutput(outputId = "diff_exp"),
+                htmlOutput("diff_exp_description")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
         )
