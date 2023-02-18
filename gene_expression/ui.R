@@ -12,7 +12,7 @@ ui <- fluidPage(
             icon = icon("clipboard"),
             mainPanel(width = 12, strong("Overview"), htmlOutput("general_description")),
             DT::dataTableOutput("dataframe"),
-            tags$footer("Sandrine Soeharjono (2022)")
+            tags$footer("Sandrine Soeharjono (2023)")
         ),
         tabPanel(
             title = "PCA",
@@ -30,7 +30,7 @@ ui <- fluidPage(
                 plotOutput(outputId = "pca"),
                 htmlOutput("pca_description")
             ),
-            tags$footer("Sandrine Soeharjono (2022)")
+            tags$footer("Sandrine Soeharjono (2023)")
         ),
         tabPanel(
             title = "Hierarchical clustering",
@@ -54,7 +54,7 @@ ui <- fluidPage(
                 plotOutput(outputId = "hierarchy"),
                 htmlOutput("hierarchy_description")
             ),
-            tags$footer("Sandrine Soeharjono (2022)")
+            tags$footer("Sandrine Soeharjono (2023)")
         )
     )
 )
