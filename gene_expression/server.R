@@ -77,7 +77,10 @@ server <- function(input, output, session) {
         from <a href='https://www.ncbi.nlm.nih.gov/sites/GDSbrowser?acc=GDS5027'> Prat A, Bianchini G, Thomas M, Belousov A et al. (2014)</a> 
         to showcase examples of gene expression data manipulation as well as interactive visualizations of its results.
         This dataset contains gene expression values for ", n_features, " total features (reduced to 22,190 unique HGNC identifiers) from ", n_samples, " samples of the ", organism,
-        " species from a ", title, ".<br><br><b>The tabs above allow the user to explore the data through:</b><br>- PCA;<br>- Hierarchical clustering;<br>- Differential expression;<br>- Expression heatmap;<br>- GSEA.",
+        " species from a ", title, ".<br><br><b>Experimental design:</b><br>Gene expression profiling was performed using RNA from formalin-fixed paraffin-embedded core biopsies from 114 pretreated 
+        patients with HER2-positive (HER2+) tumour randomized to receive neoadjuvant doxorubicin/paclitaxel (AT) followed by cyclophosphamide/methotrexate/fluorouracil (CMF), or in the same 
+        regimen in combination with trastuzumab for one year. A control court of 42 patients with HER2-negative tumours treated with AT-CMF was also included.
+        <br><br><b>The tabs above allow the user to explore the data through:</b><br>- PCA;<br>- Hierarchical clustering;<br>- Differential expression;<br>- Expression heatmap;<br>- GSEA.",
         "<br><br><b>Feel free to explore the raw expression dataset (rows = genes, columns = samples) below:</b><br><br>"
         )
       )

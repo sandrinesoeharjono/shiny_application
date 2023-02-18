@@ -3,10 +3,9 @@ library(dplyr)
 library(cluster)
 library(Biobase)
 library(GEOquery)
-#if (!requireNamespace("BiocManager", quietly = TRUE)) {
-#    install.packages("BiocManager")
-#    BiocManager::install(c("DESeq2", "GEOquery", "canvasXpress", "ggplot2", "clinfun", "GGally", "factoextra"))
-#}
+#library(BiocManager)
+#options(repos = Biobase::repositories())
+#options(repos = BiocManager::repositories())
 
 # Load the GDS file
 data <- getGEO(filename='GDS5027_full.soft.gz')
@@ -51,14 +50,6 @@ data_no_na <- na.omit(t_gexp_data)
 df <- scale(data_no_na)
 # Calculate the distance matrix
 dist_mat <- dist(df, method = "euclidean")
-# Hierarchical clustering using Complete Linkage
-#hclust_complete <- hclust(dist_mat, method = "complete")
-#dhc_complete <- as.dendrogram(hclust_complete)
-#dendro_complete <- dendro_data(dhc_complete, type = "rectangle")
-#plot(hclust_complete, cex = 0.6, hang = -1)
-# Hierarchical clustering using Average Linkage
-#hclust_avg <- hclust(dist_mat, method = 'average')
-#plot(hclust_avg)
 
 # 3) Differential expression
 
