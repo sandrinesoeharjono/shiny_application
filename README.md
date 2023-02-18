@@ -1,7 +1,7 @@
 # Shiny Applications
 Examples of applications created using the Shiny package in R. Each application has its own folder:
 - **iris_application**: Scatterplots and tables of sepal & petal length/width subject to user-defined constraints, as well as overlaid smoothing functions, for data exploration purposes. You can visualize [here](https://sandrinesoeharjono.shinyapps.io/iris_application/) its latest deployed application.
-- **gene_expression**: Basic gene expression analyses: PCA, hierarchical clustering, differential expression, heatmap and GSEA [in progress].
+- **gene_expression**: Basic gene expression analyses: PCA, hierarchical clustering, differential expression, heatmap and GSEA. You can visualize [here](https://sandrinesoeharjono.shinyapps.io/gene_expression/) its latest deployed application [IN PROGRESS].
 
 ## Installation
 To build these applications, you must first install the R programming language. For more information on how to do so on your machine, please see its [documentation](https://www.r-project.org/).
