@@ -16,7 +16,7 @@ ui <- fluidPage(
         ),
         tabPanel(
             title = "PCA",
-            icon = icon("fa-regular fa-chart-scatter"),
+            icon = icon("chart-scatter"),
             sidebarPanel(
                 checkboxGroupInput(
                     "pc",
@@ -34,7 +34,7 @@ ui <- fluidPage(
         ),
         tabPanel(
             title = "Hierarchical clustering",
-            icon = icon("fa-solid fa-sitemap"),
+            icon = icon("sitemap"),
             sidebarPanel(
                 sliderInput(
                     inputId = "n_clusters",
@@ -58,7 +58,7 @@ ui <- fluidPage(
         ),
         tabPanel(
             title = "Differential Expression",
-            icon = icon("fa-regular fa-dna"),
+            icon = icon("dna"),
             sidebarPanel(
                 sliderInput(
                     inputId = "n_clusters",
