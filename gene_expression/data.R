@@ -1,11 +1,13 @@
 # Load packages
+#options(repos = BiocManager::repositories())
 library(dplyr)
 library(cluster)
+library(devtools)
+library(ggbiplot)
+library(BiocManager)
 library(Biobase)
 library(GEOquery)
-#library(BiocManager)
-#options(repos = Biobase::repositories())
-#options(repos = BiocManager::repositories())
+library(reshape2)
 
 # Load the GDS file
 data <- getGEO(filename='GDS5027_full.soft.gz')
@@ -37,8 +39,6 @@ gexp_data <- gexp_data %>%
 t_gexp_data = t(gexp_data)
 
 # 1) PCA
-library(devtools)
-library(ggbiplot)
 set.seed(1234)
 pc <- prcomp(t_gexp_data, center = TRUE, scale = TRUE)
 attributes(pc)
@@ -52,7 +52,9 @@ df <- scale(data_no_na)
 dist_mat <- dist(df, method = "euclidean")
 
 # 3) Differential expression
+# Select expression columns only
+my_x = select(gexp_data, contains("GSM"))
+# Convert data to ‘tall’ format
+d <- melt(my_x)
 
-# 4) Heatmap
-
-# 5) GSEA
+# 4) GSEA

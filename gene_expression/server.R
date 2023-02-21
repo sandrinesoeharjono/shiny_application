@@ -10,10 +10,10 @@ source("data.R")
 server <- function(input, output, session) {
     # Dataset
     output$dataframe <- renderDataTable(
-        gexp_data,
-        caption = htmltools::tags$caption(
-            style = 'caption-side:top; text-align:center; color:#555555; font-weight:bold; font-size: 125%', 'Full Expression Dataset'
-        )
+      gexp_data,
+      caption = htmltools::tags$caption(
+          style = 'caption-side:top; text-align:center; color:#555555; font-weight:bold; font-size: 125%', 'Full Expression Dataset'
+      )
     )
 
     # PCA
@@ -55,24 +55,29 @@ server <- function(input, output, session) {
     labeled_samples = reactive({merge(dendro()[["labels"]], clusters_df(), by = "label")})
     output$hierarchy <- renderPlot({
       ggplot(segment(dendro())) + 
-        geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) + 
-        geom_text(data = labeled_samples(), aes(x, y, label = label, hjust = 0, color = Cluster), size = 3) +
-        coord_flip() + 
-        scale_y_reverse(expand = c(0.2, 0)) +
-        ggtitle(paste0("Hierarchical Clustering of Samples by the ", input$hclust_method, " Method")) +
-        ylab("Cluster Distance") +
-        xlab("Samples") +
-        theme(
-          plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
-          axis.text = element_text(size = 11, colour = "#555555"),
-          axis.title = element_text(size = 14, colour = "#555555"),
-        )
+      geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) + 
+      geom_text(data = labeled_samples(), aes(x, y, label = label, hjust = 0, color = Cluster), size = 3) +
+      coord_flip() + 
+      scale_y_reverse(expand = c(0.2, 0)) +
+      ggtitle(paste0("Hierarchical Clustering of Samples by the ", input$hclust_method, " Method")) +
+      ylab("Cluster Distance") +
+      xlab("Samples") +
+      theme(
+        plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
+        axis.text = element_text(size = 11, colour = "#555555"),
+        axis.title = element_text(size = 14, colour = "#555555"),
+      )
     })
 
     # Differential expression
-    output$diff_exp <- renderPlot({
-      # TODO
-      ggplot(segment(dendro()))
+    output$exp_histogram <- renderPlot({
+      # This is to plot histogram of raw count data
+      ggplot(d, aes(x = value)) + geom_histogram(binwidth = input$bin_width, color = "black", fill = "blue") +
+      #ggplot(gexp_data) + geom_histogram() +
+      #geom_histogram(aes(x = gexp_data), stat = "bin", bins = input$n_bins) +
+      xlab("Raw expression counts") +
+      ylab("Number of genes") + 
+      ggtitle("Histogram of Raw Expression Values")
     })
 
     # Text

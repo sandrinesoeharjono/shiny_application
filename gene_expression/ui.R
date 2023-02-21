@@ -61,15 +61,15 @@ ui <- fluidPage(
             icon = icon("dna"),
             sidebarPanel(
                 sliderInput(
-                    inputId = "n_clusters",
-                    label = "Select the desired number of clusters:",
+                    inputId = "bin_width",
+                    label = "Select the desired bin width:",
                     min = 1,
-                    max = 15,
+                    max = 10,
                     value = 1
                 )
             ),
             mainPanel(
-                plotOutput(outputId = "diff_exp"),
+                plotOutput(outputId = "exp_histogram"),
                 htmlOutput("diff_exp_description")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
