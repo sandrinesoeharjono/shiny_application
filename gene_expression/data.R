@@ -8,6 +8,7 @@ library(BiocManager)
 library(Biobase)
 library(GEOquery)
 library(reshape2)
+library(DESeq2)
 
 # Load the GDS file
 data <- getGEO(filename='GDS5027_full.soft.gz')
@@ -38,6 +39,10 @@ gexp_data <- gexp_data %>%
 # Take transpose of dataset (rows=samples, columns=genes)
 t_gexp_data = t(gexp_data)
 
+# Create metadata with 4 columns: sample, genotype.variation, protocol, other
+#metadata <- data.frame(data@dataTable@columns)
+#metadata = subset(metadata, select = -description)
+
 # 1) PCA
 set.seed(1234)
 pc <- prcomp(t_gexp_data, center = TRUE, scale = TRUE)
@@ -51,10 +56,20 @@ df <- scale(data_no_na)
 # Calculate the distance matrix
 dist_mat <- dist(df, method = "euclidean")
 
-# 3) Differential expression
-# Select expression columns only
-exp_values = select(gexp_data, contains("GSM"))
+# 3) Differential expression {USING NEW DATASET}
+# TODO: use this dataset for all analyses
+count_matrix <- read.csv(url("https://raw.githubusercontent.com/hbc/NGS_Data_Analysis_Course/master/sessionIII/data/Mov10_full_counts.txt"), sep = "\t", row.names = 1)
+metadata <- read.csv(url("https://raw.githubusercontent.com/hbc/NGS_Data_Analysis_Course/master/sessionIII/data/Mov10_full_meta.txt"), sep = "\t", row.names = 1)
 # Convert data to ‘tall’ format
-tall_gexp <- melt(exp_values)
-
+tall_gexp <- melt(count_matrix)
+# Check that the sample names of count matrix match row names of phenodata (expected by DESeq2)
+all(rownames(metadata) %in% colnames(count_matrix))
+all(rownames(metadata) == colnames(count_matrix))
+# Create DESeq2 object. For design give the column with factor variable in metadata or phenodata, which indicates the grouping of samples
+dds <- DESeqDataSetFromMatrix(countData = count_matrix, colData = metadata, design = ~ sampletype)
+# add size factors to slot
+dds <- estimateSizeFactors(dds)
+# generate normalized counts (median of ratios method)
+normalized_counts <- counts(dds, normalized = TRUE)
+print("DONE @@@@@@@@@@")
 # 4) GSEA

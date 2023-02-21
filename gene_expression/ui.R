@@ -68,7 +68,11 @@ ui <- fluidPage(
                     value = 1
                 )
             ),
+            radioButtons("cutoff_threshold", "Select the threshold for cut-off:",
+               choiceNames = list("None", 500, 1000, 1500),
+               choiceValues = list(0, 500, 1000, 1500)),
             mainPanel(
+                htmlOutput("diff_exp_warning"),
                 plotOutput(outputId = "exp_histogram"),
                 htmlOutput("diff_exp_description")
             ),

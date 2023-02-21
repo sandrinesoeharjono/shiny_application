@@ -71,8 +71,9 @@ server <- function(input, output, session) {
 
     # Differential expression
     output$exp_histogram <- renderPlot({
+      selected_data <- subset(tall_gexp, value > input$cutoff_threshold)
       # This is to plot histogram of raw count data
-      ggplot(tall_gexp, aes(x = value)) + geom_histogram(binwidth = input$bin_width, color = "black", fill = "#787878") +
+      ggplot(selected_data, aes(x = value)) + geom_histogram(binwidth = input$bin_width, color = "black", fill = "#787878") +
       xlab("Raw expression counts") +
       ylab("Number of genes") + 
       ggtitle("Histogram of Raw Expression Values") + 
@@ -120,6 +121,12 @@ server <- function(input, output, session) {
         <b>2) Divisive hierarchical clustering</b>: All data points begin in one large cluster, which gets split up recursively as the algorithm moves down the hierarchy. 
         This can be thought of as a <i>top-down</i> approach.<br><br>In this application, you can compare 5 different methods of agglomerative clustering using the left-side panel.
         The slider for the number of clusters allows you to select your desired level of granularity."
+      )
+    })
+
+    output$diff_exp_warning <- renderUI({
+      HTML(
+        "PLEASE NOTE: The dataset used in this tab and the following one us from a different source."
       )
     })
 
