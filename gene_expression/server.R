@@ -125,8 +125,17 @@ server <- function(input, output, session) {
 
     output$diff_exp_description <- renderUI({
       HTML(
-        "<b>Description:</b><br><a href=''>Differential expression</a> 
-        is [blabla] ____."
+        "<b>Description:</b><br><a href='https://genomebiology.biomedcentral.com/articles/10.1186/gb-2010-11-10-r106'>Differential gene expression</a> 
+        (DGE) is an analysis that compares gene expression values between sample group types. Lists of genes that differ between 2 sample sets are often
+        provided by RNA-seq tools, and are then typically normalized using RPKM or FPKM methods for samples-sequencing depth. DGE has been shown to 
+        enable the identification of common elements that are significantly enriched in gene classes with particular functions such as protein synthesis, 
+        hormone delivery, and morphological plasticity. It can be run using <a href='https://bioconductor.org/packages/release/bioc/html/DESeq2.html'>DESeq2</a>, 
+        an R/Bioconductor package.<br><br> 
+        Due to the large number of genes, (e.g., >20,000 in the human genome), multiple testing correction such as Bonferroni correction is usually applied. 
+        Because the number of gene that are differentially expressed between samples may still be high (e.g., >1000), another method to better understand and interpret 
+        the meaning of so many gene expression changes is needed. One example is “gene set enrichment” or GSEA (Hung et al., 2012; Subramanian et al., 2005): 
+        here, a group of genes that belong to a particular category that are enriched in one sample is compared to another sample. 
+        To view this analysis, navigate to the next 'GSEA' tab!"
       )
     })
 }
