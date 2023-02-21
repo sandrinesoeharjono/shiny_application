@@ -86,7 +86,7 @@ server <- function(input, output, session) {
         " species from a ", title, ".<br><br><b>Experimental design:</b><br>Gene expression profiling was performed using RNA from formalin-fixed paraffin-embedded core biopsies from 114 pretreated 
         patients with HER2-positive (HER2+) tumour randomized to receive neoadjuvant doxorubicin/paclitaxel (AT) followed by cyclophosphamide/methotrexate/fluorouracil (CMF), or in the same 
         regimen in combination with trastuzumab for one year. A control court of 42 patients with HER2-negative tumours treated with AT-CMF was also included.
-        <br><br><b>The tabs above allow the user to explore the data through:</b><br>- PCA;<br>- Hierarchical clustering;<br>- Differential expression;<br>- Expression heatmap;<br>- GSEA.",
+        <br><br><b>The tabs above allow the user to explore the data through:</b><br>- PCA;<br>- Hierarchical clustering;<br>- Differential expression;<br>- GSEA.",
         "<br><br><b>Feel free to explore the raw expression dataset (rows = genes, columns = samples) below:</b><br><br>"
         )
       )
