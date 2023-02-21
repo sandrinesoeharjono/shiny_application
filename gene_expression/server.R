@@ -72,12 +72,15 @@ server <- function(input, output, session) {
     # Differential expression
     output$exp_histogram <- renderPlot({
       # This is to plot histogram of raw count data
-      ggplot(d, aes(x = value)) + geom_histogram(binwidth = input$bin_width, color = "black", fill = "blue") +
-      #ggplot(gexp_data) + geom_histogram() +
-      #geom_histogram(aes(x = gexp_data), stat = "bin", bins = input$n_bins) +
+      ggplot(tall_gexp, aes(x = value)) + geom_histogram(binwidth = input$bin_width, color = "black", fill = "#787878") +
       xlab("Raw expression counts") +
       ylab("Number of genes") + 
-      ggtitle("Histogram of Raw Expression Values")
+      ggtitle("Histogram of Raw Expression Values") + 
+      theme(
+        plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
+        axis.text = element_text(size = 11, colour = "#555555"),
+        axis.title = element_text(size = 14, colour = "#555555"),
+      )
     })
 
     # Text

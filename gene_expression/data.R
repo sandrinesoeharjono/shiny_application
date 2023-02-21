@@ -53,8 +53,8 @@ dist_mat <- dist(df, method = "euclidean")
 
 # 3) Differential expression
 # Select expression columns only
-my_x = select(gexp_data, contains("GSM"))
+exp_values = select(gexp_data, contains("GSM"))
 # Convert data to ‘tall’ format
-d <- melt(my_x)
+tall_gexp <- melt(exp_values)
 
 # 4) GSEA
