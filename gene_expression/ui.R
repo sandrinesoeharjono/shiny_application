@@ -87,6 +87,8 @@ ui <- fluidPage(
                 plotOutput(outputId = "raw_exp_histogram"),
                 plotOutput(outputId = "norm_exp_histogram"),
                 br(),
+                plotOutput(outputId = "top_de_genes"),
+                htmlOutput("top_de_description"),
                 plotOutput(outputId = "volcano_plot"),
                 htmlOutput("vocano_description"),
                 br(),

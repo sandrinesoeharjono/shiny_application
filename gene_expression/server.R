@@ -9,7 +9,8 @@ library(EnhancedVolcano)
 source("data.R")
 
 server <- function(input, output, session) {
-    # Dataset
+    # OVERVIEW PAGE ###############################################################################################
+    # Dataset in table format
     output$dataframe <- renderDataTable(
       gexp_data,
       caption = htmltools::tags$caption(
@@ -17,7 +18,7 @@ server <- function(input, output, session) {
       )
     )
 
-    # PCA
+    # PCA ###############################################################################################################
     output$pca <- renderPlot({
       ggbiplot(
         pc,
@@ -48,7 +49,8 @@ server <- function(input, output, session) {
       )
     })
 
-    # Hierarchical clustering
+    # HIERARCHICAL CLUSTERING ###############################################################################################
+    # Dendrogram
     hclust_obj <- reactive({hclust(dist_mat, method = tolower(input$hclust_method))})
     dendro <- reactive({dendro_data(as.dendrogram(hclust_obj()), type = "rectangle")})
     clusters <- reactive({cutree(hclust_obj(), k = input$n_clusters)})
@@ -69,11 +71,11 @@ server <- function(input, output, session) {
         axis.title = element_text(size = 14, colour = "#555555"),
       )
     })
-
-    # Differential expression
+    
+    # DIFFERENTIAL EXPRESSION ###############################################################################################
+    # Histogram of raw counts
     output$raw_exp_histogram <- renderPlot({
       selected_data <- subset(tall_raw_gexp, value > input$cutoff_threshold)
-      # This is to plot histogram of raw count data
       ggplot(selected_data, aes(x = value)) + geom_histogram(binwidth = input$bin_width, color = "black", fill = "#787878") +
       xlab("Raw expression counts") +
       ylab("Number of genes") + 
@@ -84,10 +86,10 @@ server <- function(input, output, session) {
         axis.title = element_text(size = 14, colour = "#555555"),
       )
     })
-
+    
+    # Histogram of normalized counts
     output$norm_exp_histogram <- renderPlot({
       selected_data <- subset(tall_norm_gexp, value > input$cutoff_threshold)
-      # This is to plot histogram of raw count data
       ggplot(selected_data, aes(x = value)) + geom_histogram(binwidth = input$bin_width, color = "black", fill = "#787878") +
       xlab("Normalized expression counts") +
       ylab("Number of genes") + 
@@ -99,6 +101,20 @@ server <- function(input, output, session) {
       )
     })
 
+    # Plot of top 20 differentially-expressed genes
+    output$top_de_genes <- renderPlot({
+      ggplot(top20_sigDE_normdfl) +
+      geom_point(aes(x = gene, y = Normalized_Counts, color = sampletype)) +
+      scale_y_log10() +
+      xlab("Genes") +
+      ylab("log10 Normalized Counts") +
+      ggtitle("Top 20 Significant DE Genes by padj value") +
+      theme_bw() +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+      theme(plot.title = element_text(hjust = 0.5))
+    })
+    
+    # Volcano scatter plot
     output$volcano_plot <- renderPlot({
       EnhancedVolcano(
         res,
@@ -108,7 +124,7 @@ server <- function(input, output, session) {
       )
     })
 
-    # Text
+    # TEXT (ON ALL PAGES) ###############################################################################################
     output$general_description <- renderUI({
       HTML(
         paste0(
@@ -160,6 +176,12 @@ server <- function(input, output, session) {
       )
     })
 
+    output$top_de_description <- renderUI({
+      HTML(
+        "Above we show the top 20 differentially expressed genes by the adjusted p-value."
+      )
+    })
+
     output$vocano_description <- renderUI({
       HTML(
         "A <a href='https://training.galaxyproject.org/training-material/topics/transcriptomics/tutorials/rna-seq-viz-with-volcanoplot/tutorial.html'>volcano plot</a> 
@@ -171,7 +193,7 @@ server <- function(input, output, session) {
         <a href='https://bioconductor.org/packages/devel/bioc/vignettes/EnhancedVolcano/inst/doc/EnhancedVolcano.html'>EnhancedVolcano</a>."
       )
     })
-    
+
     output$diff_exp_conclusion <- renderUI({
       HTML(
         "Due to the large number of genes, (e.g., >20,000 in the human genome), multiple testing correction such as Bonferroni correction is usually applied. 

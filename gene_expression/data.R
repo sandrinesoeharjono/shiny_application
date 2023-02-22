@@ -1,6 +1,7 @@
 # Load packages
 #options(repos = BiocManager::repositories())
 library(dplyr)
+library(tidyr)
 library(cluster)
 library(devtools)
 library(ggbiplot)
@@ -76,11 +77,28 @@ dds <- DESeq(dds)
 res <- results(dds)
 res <- lfcShrink(dds, coef = 2, res = res, type = 'normal')
 # Write results to file
-deg_df = as.data.frame(res[order(res$padj),])
-write.csv(deg_df, file="DEG_results.csv")
+DEG_df = as.data.frame(res[order(res$padj),])
+write.csv(DEG_df, file="DEG_results.csv")
 # Generate normalized counts (median of ratios method)
 normalized_counts <- counts(dds, normalized = TRUE)
 # Convert normalized data to 'tall' format
 tall_norm_gexp <- melt(normalized_counts)
+
+# Top 20 differentially expressed genes
+top20_sigDE_genes <- DEG_df[head(order(DEG_df$padj), 20),]
+# assumes the normalized count matrix was already generated in the beginning of session as global variable. See top
+top20_sigDE_normdf <- data.frame(normalized_counts[(rownames(normalized_counts) %in% rownames(top20_sigDE_genes)),])
+
+# get top20 genes normalized counts to plot with ggplot2
+rownames(top20_sigDE_normdf) -> top20_sigDE_normdf$gene
+top20_sigDE_normdf <- top20_sigDE_normdf[,c(ncol(top20_sigDE_normdf), (1:ncol(top20_sigDE_normdf)-1))] # reorder
+top20_sigDE_normdfl <- top20_sigDE_normdf %>% 
+    gather("Sample", "Normalized_Counts", (colnames(top20_sigDE_normdf)[-1]))
+
+# Since it will be grouped based on factors it is important to let ggplot2 know that different replicates of same group are the same, for this. 
+# Otherwise each replicate will be a separate group
+metadata -> mov10_meta
+rownames(metadata) -> mov10_meta$Sample
+top20_sigDE_normdfl <- inner_join(mov10_meta, top20_sigDE_normdfl, multiple = "all")
 
 # 4) GSEA
