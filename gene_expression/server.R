@@ -4,6 +4,7 @@ library(ggdendro)
 library(DT)
 library(wesanderson)
 library(EnhancedVolcano)
+library(factoextra)
 
 # Import 'data' object from UI
 source("data.R")
@@ -63,21 +64,27 @@ server <- function(input, output, session) {
     })
 
     # HIERARCHICAL CLUSTERING ###############################################################################################
-    # Dendrogram
-    hclust_obj <- reactive({hclust(dist_mat, method = tolower(input$hclust_method))})
-    dendro <- reactive({dendro_data(as.dendrogram(hclust_obj()), type = "rectangle")})
-    clusters <- reactive({cutree(hclust_obj(), k = input$n_clusters)})
-    clusters_df <- reactive({data.frame(label=names(clusters()), Cluster=factor(clusters()))})
-    labeled_samples = reactive({merge(dendro()[["labels"]], clusters_df(), by = "label")})
-    output$hierarchy <- renderPlot({
-      ggplot(segment(dendro())) + 
-      geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) + 
-      geom_text(data = labeled_samples(), aes(x, y, label = label, hjust = 0, color = Cluster), size = 3) +
-      coord_flip() + 
-      scale_y_reverse(expand = c(0.2, 0)) +
-      ggtitle(paste0("Hierarchical Clustering of Samples by the ", input$hclust_method, " Method")) +
-      ylab("Cluster Distance") +
+    hier_result <- reactive({hcut(dist_mat, k = input$n_clusters, hc_method = tolower(input$hclust_method))})
+
+    # Plot the dendrogram
+    output$hier_ddg <- renderPlot({
+      fviz_dend(hier_result(), show_labels = FALSE, rect = TRUE) +
       xlab("Samples") +
+      ylab("Cluster Distance") + 
+      ggtitle(paste0("Hierarchical Clustering of Samples by the ", input$hclust_method, " Method")) +
+      theme(
+        plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
+        axis.text = element_text(size = 11, colour = "#555555"),
+        axis.title = element_text(size = 14, colour = "#555555"),
+      )
+    })
+
+    # Plot the silhouette 
+    output$hier_silhouette <- renderPlot({
+      fviz_silhouette(hier_result()) +
+      xlab("Samples") +
+      ylab("Silhouette Width") + 
+      ggtitle(paste0("Silhouette Width of Hierarchical Clustering by the ", input$hclust_method, " Method")) +
       theme(
         plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
         axis.text = element_text(size = 11, colour = "#555555"),
@@ -195,7 +202,7 @@ server <- function(input, output, session) {
       )
     })
 
-    output$vocano_description <- renderUI({
+    output$volcano_description <- renderUI({
       HTML(
         "A <a href='https://training.galaxyproject.org/training-material/topics/transcriptomics/tutorials/rna-seq-viz-with-volcanoplot/tutorial.html'>volcano plot</a> 
         is a type of scatterplot that shows statistical significance (P-value) versus magnitude of change (fold change).

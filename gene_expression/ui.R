@@ -39,9 +39,9 @@ ui <- fluidPage(
                 sliderInput(
                     inputId = "n_clusters",
                     label = "Select the desired number of clusters:",
-                    min = 1,
+                    min = 2,
                     max = 15,
-                    value = 1
+                    value = 2
                 ),
                 br(),
                 selectInput(
@@ -51,8 +51,9 @@ ui <- fluidPage(
                 )
             ),
             mainPanel(
-                plotOutput(outputId = "hierarchy"),
-                htmlOutput("hierarchy_description")
+                plotOutput(outputId = "hier_ddg"),
+                htmlOutput("hierarchy_description"),
+                plotOutput(outputId = "hier_silhouette")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
         ),
@@ -90,7 +91,7 @@ ui <- fluidPage(
                 plotOutput(outputId = "top_de_genes"),
                 htmlOutput("top_de_description"),
                 plotOutput(outputId = "volcano_plot"),
-                htmlOutput("vocano_description"),
+                htmlOutput("volcano_description"),
                 br(),
                 htmlOutput("diff_exp_conclusion")
             ),
