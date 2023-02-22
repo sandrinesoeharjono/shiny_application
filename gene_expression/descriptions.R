@@ -30,9 +30,12 @@ hier_description <- "<b>Description:</b><br><a href='https://towardsdatascience.
     This can be thought of as a <i>top-down</i> approach.<br><br>In this application, you can compare 5 different methods of agglomerative clustering using the left-side panel.
     The slider for the number of clusters allows you to select your desired level of granularity."
 
+# Description of expression histograms
+histogram_description <- "<i><b>PLEASE NOTE: The dataset used in this tab and the following one us from a different source.</i></b><br><br>
+    Here we show the distribution of gene expression in both raw and normalized datasets."
+
 # Description of differential expression (DEG) using DESeq2
-deg_description <- "<i><b>PLEASE NOTE: The dataset used in this tab and the following one us from a different source.</i></b><br><br>
-    <b>Description:</b><br><a href='https://genomebiology.biomedcentral.com/articles/10.1186/gb-2010-11-10-r106'>Differential gene expression</a> 
+deg_description <- "<b>Description:</b><br><a href='https://genomebiology.biomedcentral.com/articles/10.1186/gb-2010-11-10-r106'>Differential gene expression</a> 
     (DGE) is an analysis that compares gene expression values between sample group types. Lists of genes that differ between 2 sample sets are often
     provided by RNA-seq tools, and are then typically normalized using RPKM or FPKM methods for samples-sequencing depth. DGE has been shown to 
     enable the identification of common elements that are significantly enriched in gene classes with particular functions such as protein synthesis, 

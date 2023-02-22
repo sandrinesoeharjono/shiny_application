@@ -54,6 +54,7 @@ server <- function(input, output, session) {
           shape = data@dataTable@columns[["protocol"]]
         ), size = 2
       ) +
+      theme_bw() +
       ggtitle(paste0("Principal Component Analysis of PC", input$pc[1], " vs. PC", input$pc[2])) +
       theme(
         legend.direction = 'vertical',
@@ -73,6 +74,7 @@ server <- function(input, output, session) {
       xlab("Samples") +
       ylab("Cluster Distance") + 
       ggtitle(paste0("Hierarchical Clustering of Samples by the ", input$hclust_method, " Method")) +
+      theme_bw() +
       theme(
         plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
         axis.text = element_text(size = 11, colour = "#555555"),
@@ -86,9 +88,12 @@ server <- function(input, output, session) {
       xlab("Samples") +
       ylab("Silhouette Width") + 
       ggtitle(paste0("Silhouette Width of Hierarchical Clustering by the ", input$hclust_method, " Method")) +
+      labs(fill = "Cluster") +
+      theme_bw() +
       theme(
+        axis.text.x = element_blank(),
         plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
-        axis.text = element_text(size = 11, colour = "#555555"),
+        axis.text.y = element_text(size = 11, colour = "#555555"),
         axis.title = element_text(size = 14, colour = "#555555"),
       )
     })
@@ -97,10 +102,12 @@ server <- function(input, output, session) {
     # Histogram of raw counts
     output$raw_exp_histogram <- renderPlot({
       selected_data <- subset(tall_raw_gexp, value > input$cutoff_threshold)
-      ggplot(selected_data, aes(x = value)) + geom_histogram(binwidth = input$bin_width, color = "black", fill = "#787878") +
-      xlab("Raw expression counts") +
-      ylab("Number of genes") + 
+      ggplot(selected_data, aes(x = value)) + 
+      geom_histogram(binwidth = input$bin_width, color = "black", fill = "red") +
+      xlab("Raw Expression Counts") +
+      ylab("Number of Genes") + 
       ggtitle("Histogram of Raw Expression Values") + 
+      theme_bw() +
       theme(
         plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
         axis.text = element_text(size = 11, colour = "#555555"),
@@ -111,10 +118,12 @@ server <- function(input, output, session) {
     # Histogram of normalized counts
     output$norm_exp_histogram <- renderPlot({
       selected_data <- subset(tall_norm_gexp, value > input$cutoff_threshold)
-      ggplot(selected_data, aes(x = value)) + geom_histogram(binwidth = input$bin_width, color = "black", fill = "#787878") +
-      xlab("Normalized expression counts") +
-      ylab("Number of genes") + 
+      ggplot(selected_data, aes(x = value)) + 
+      geom_histogram(binwidth = input$bin_width, color = "black", fill = "red") +
+      xlab("Normalized Expression Counts") +
+      ylab("Number of Genes") + 
       ggtitle("Histogram of Normalized Expression Values") + 
+      theme_bw() +
       theme(
         plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
         axis.text = element_text(size = 11, colour = "#555555"),
@@ -129,10 +138,14 @@ server <- function(input, output, session) {
       scale_y_log10() +
       xlab("Genes") +
       ylab("log10 Normalized Counts") +
-      ggtitle("Top 20 Significant DE Genes by padj value") +
+      ggtitle("Top 20 Significant DE Genes by padj Value") +
+      labs(fill = "Sample Type") +
       theme_bw() +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-      theme(plot.title = element_text(hjust = 0.5))
+      theme(
+        plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
+        #axis.text = element_text(size = 11, colour = "#555555"),
+        axis.title = element_text(size = 14, colour = "#555555"),
+      )
     })
     
     # Volcano scatter plot
@@ -142,6 +155,11 @@ server <- function(input, output, session) {
         lab = rownames(res),
         x = 'log2FoldChange',
         y = 'pvalue'
+      ) + theme_bw +
+      theme(
+        plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
+        axis.text = element_text(size = 11, colour = "#555555"),
+        axis.title = element_text(size = 14, colour = "#555555"),
       )
     })
 

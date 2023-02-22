@@ -20,7 +20,7 @@ ui <- fluidPage(
         # 2nd panel: PCA
         tabPanel(
             title = "PCA",
-            icon = icon("chart-scatter"),
+            icon = icon("function"), # chart-scatter
             sidebarPanel(
                 checkboxGroupInput(
                     "pc",
@@ -65,38 +65,46 @@ ui <- fluidPage(
             tags$footer("Sandrine Soeharjono (2023)")
         ),
         
-        # 4th panel: Differential expression
+        # 4th panel: Expression data distribution
+        tabPanel(
+            title = "Distribution",
+            icon = icon("tally"),
+            sidebarPanel(
+               HTML('<script type="text/javascript">
+                    $(document).ready(function() {
+                    $("#DownloadButton").click(function() {
+                        $("#Download").text("Loading...");
+                    });
+                    });
+                </script>
+                '),
+                sliderInput(
+                    inputId = "bin_width",
+                    label = "Select the desired bin width:",
+                    min = 1,
+                    max = 10,
+                    value = 1
+                ),
+                br(),
+                radioButtons("cutoff_threshold", "Select the threshold for minimal value cut-off:",
+                choiceNames = list("None", 500, 1000, 1500),
+                choiceValues = list(0, 500, 1000, 1500)
+                )
+            ),
+            mainPanel(
+                htmlOutput(outputId = "histogram_description"),
+                plotOutput(outputId = "raw_exp_histogram"),
+                plotOutput(outputId = "norm_exp_histogram")
+            ),
+            tags$footer("Sandrine Soeharjono (2023)")
+        ),
+        
+        # 5th panel: Differential expression
         tabPanel(
             title = "Differential Expression",
             icon = icon("dna"),
-            #sidebarPanel(
-            #    HTML('<script type="text/javascript">
-            #        $(document).ready(function() {
-            #        $("#DownloadButton").click(function() {
-            #            $("#Download").text("Loading...");
-            #        });
-            #        });
-            #    </script>
-            #    '),
-            #    sliderInput(
-            #        inputId = "bin_width",
-            #        label = "Select the desired bin width:",
-            #        min = 1,
-            #        max = 10,
-            #        value = 1
-            #    ),
-            #    br(),
-            #    radioButtons("cutoff_threshold", "Select the threshold for minimal value cut-off:",
-            #    choiceNames = list("None", 500, 1000, 1500),
-            #    choiceValues = list(0, 500, 1000, 1500)
-            #    )
-            #),
             mainPanel(
                 htmlOutput("diff_exp_description"),
-                #br(),
-                #plotOutput(outputId = "raw_exp_histogram"),
-                #plotOutput(outputId = "norm_exp_histogram"),
-                #br(),
                 plotOutput(outputId = "top_de_genes"),
                 htmlOutput("top_de_description"),
                 br(),
