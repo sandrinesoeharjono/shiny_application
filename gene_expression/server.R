@@ -196,7 +196,7 @@ server <- function(input, output, session) {
 
     output$diff_exp_conclusion <- renderUI({
       HTML(
-        "Due to the large number of genes, (e.g., >20,000 in the human genome), multiple testing correction such as Bonferroni correction is usually applied. 
+        "<b>Next steps:</b><br>Due to the large number of genes, (e.g., >20,000 in the human genome), multiple testing correction such as Bonferroni correction is usually applied. 
         Because the number of gene that are differentially expressed between samples may still be high (e.g., >1000), another method to better understand and interpret 
         the meaning of so many gene expression changes is needed. One example is “gene set enrichment” or GSEA (Hung et al., 2012; Subramanian et al., 2005): 
         here, a group of genes that belong to a particular category that are enriched in one sample is compared to another sample. 
