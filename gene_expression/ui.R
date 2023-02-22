@@ -60,21 +60,37 @@ ui <- fluidPage(
             title = "Differential Expression",
             icon = icon("dna"),
             sidebarPanel(
+                HTML('<script type="text/javascript">
+                    $(document).ready(function() {
+                    $("#DownloadButton").click(function() {
+                        $("#Download").text("Loading...");
+                    });
+                    });
+                </script>
+                '),
                 sliderInput(
                     inputId = "bin_width",
                     label = "Select the desired bin width:",
                     min = 1,
                     max = 10,
                     value = 1
+                ),
+                br(),
+                radioButtons("cutoff_threshold", "Select the threshold for minimal value cut-off:",
+                choiceNames = list("None", 500, 1000, 1500),
+                choiceValues = list(0, 500, 1000, 1500)
                 )
             ),
-            radioButtons("cutoff_threshold", "Select the threshold for cut-off:",
-               choiceNames = list("None", 500, 1000, 1500),
-               choiceValues = list(0, 500, 1000, 1500)),
             mainPanel(
-                htmlOutput("diff_exp_warning"),
-                plotOutput(outputId = "exp_histogram"),
-                htmlOutput("diff_exp_description")
+                htmlOutput("diff_exp_description"),
+                br(),
+                plotOutput(outputId = "raw_exp_histogram"),
+                plotOutput(outputId = "norm_exp_histogram"),
+                br(),
+                plotOutput(outputId = "volcano_plot"),
+                htmlOutput("vocano_description"),
+                br(),
+                htmlOutput("diff_exp_conclusion")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
         )

@@ -61,15 +61,26 @@ dist_mat <- dist(df, method = "euclidean")
 count_matrix <- read.csv(url("https://raw.githubusercontent.com/hbc/NGS_Data_Analysis_Course/master/sessionIII/data/Mov10_full_counts.txt"), sep = "\t", row.names = 1)
 metadata <- read.csv(url("https://raw.githubusercontent.com/hbc/NGS_Data_Analysis_Course/master/sessionIII/data/Mov10_full_meta.txt"), sep = "\t", row.names = 1)
 # Convert data to ‘tall’ format
-tall_gexp <- melt(count_matrix)
+tall_raw_gexp <- melt(count_matrix)
 # Check that the sample names of count matrix match row names of phenodata (expected by DESeq2)
 all(rownames(metadata) %in% colnames(count_matrix))
 all(rownames(metadata) == colnames(count_matrix))
 # Create DESeq2 object. For design give the column with factor variable in metadata or phenodata, which indicates the grouping of samples
 dds <- DESeqDataSetFromMatrix(countData = count_matrix, colData = metadata, design = ~ sampletype)
-# add size factors to slot
+# Pre-filter the genes that have low counts
+dds <- dds[rowSums(counts(dds)) >= 10,]
+# Add size factors to slot
 dds <- estimateSizeFactors(dds)
-# generate normalized counts (median of ratios method)
+# Perform differential expression analysis
+dds <- DESeq(dds)
+res <- results(dds)
+res <- lfcShrink(dds, coef = 2, res = res, type = 'normal')
+# Write results to file
+deg_df = as.data.frame(res[order(res$padj),])
+write.csv(deg_df, file="DEG_results.csv")
+# Generate normalized counts (median of ratios method)
 normalized_counts <- counts(dds, normalized = TRUE)
-print("DONE @@@@@@@@@@")
+# Convert normalized data to 'tall' format
+tall_norm_gexp <- melt(normalized_counts)
+
 # 4) GSEA
