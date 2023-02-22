@@ -27,8 +27,8 @@ ui <- fluidPage(
                 )
             ),
             mainPanel(
-                plotOutput(outputId = "pca"),
-                htmlOutput("pca_description")
+                htmlOutput("pca_description"),
+                plotOutput(outputId = "pca")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
         ),
@@ -59,34 +59,34 @@ ui <- fluidPage(
         tabPanel(
             title = "Differential Expression",
             icon = icon("dna"),
-            sidebarPanel(
-                HTML('<script type="text/javascript">
-                    $(document).ready(function() {
-                    $("#DownloadButton").click(function() {
-                        $("#Download").text("Loading...");
-                    });
-                    });
-                </script>
-                '),
-                sliderInput(
-                    inputId = "bin_width",
-                    label = "Select the desired bin width:",
-                    min = 1,
-                    max = 10,
-                    value = 1
-                ),
-                br(),
-                radioButtons("cutoff_threshold", "Select the threshold for minimal value cut-off:",
-                choiceNames = list("None", 500, 1000, 1500),
-                choiceValues = list(0, 500, 1000, 1500)
-                )
-            ),
+            #sidebarPanel(
+            #    HTML('<script type="text/javascript">
+            #        $(document).ready(function() {
+            #        $("#DownloadButton").click(function() {
+            #            $("#Download").text("Loading...");
+            #        });
+            #        });
+            #    </script>
+            #    '),
+            #    sliderInput(
+            #        inputId = "bin_width",
+            #        label = "Select the desired bin width:",
+            #        min = 1,
+            #        max = 10,
+            #        value = 1
+            #    ),
+            #    br(),
+            #    radioButtons("cutoff_threshold", "Select the threshold for minimal value cut-off:",
+            #    choiceNames = list("None", 500, 1000, 1500),
+            #    choiceValues = list(0, 500, 1000, 1500)
+            #    )
+            #),
             mainPanel(
                 htmlOutput("diff_exp_description"),
-                br(),
-                plotOutput(outputId = "raw_exp_histogram"),
-                plotOutput(outputId = "norm_exp_histogram"),
-                br(),
+                #br(),
+                #plotOutput(outputId = "raw_exp_histogram"),
+                #plotOutput(outputId = "norm_exp_histogram"),
+                #br(),
                 plotOutput(outputId = "top_de_genes"),
                 htmlOutput("top_de_description"),
                 plotOutput(outputId = "volcano_plot"),
