@@ -33,6 +33,7 @@ server <- function(input, output, session) {
     })
 
     # PCA scatterplot
+    ### TODO: Use 'groups' in reactive mode for interactive ellipse
     output$pca <- renderPlot({
       ggbiplot(
         pc,
@@ -40,8 +41,7 @@ server <- function(input, output, session) {
         obs.scale = 1,
         var.scale = 1,
         var.axes = FALSE,
-        groups = data@dataTable@columns[["genotype/variation"]],
-        # TODO: Use 'groups' in reactive mode for interactive ellipse 
+        groups = data@dataTable@columns[["genotype/variation"]], 
         ellipse = TRUE,
         circle = TRUE,
         ellipse.prob = 0.68
@@ -66,7 +66,7 @@ server <- function(input, output, session) {
     # HIERARCHICAL CLUSTERING ###############################################################################################
     hier_result <- reactive({hcut(dist_mat, k = input$n_clusters, hc_method = tolower(input$hclust_method))})
 
-    # Plot the dendrogram
+    # Dendrogram plot
     output$hier_ddg <- renderPlot({
       fviz_dend(hier_result(), show_labels = FALSE, rect = TRUE) +
       xlab("Samples") +
@@ -79,7 +79,7 @@ server <- function(input, output, session) {
       )
     })
 
-    # Plot the silhouette 
+    # Silhouette width bar plot
     output$hier_silhouette <- renderPlot({
       fviz_silhouette(hier_result()) +
       xlab("Samples") +

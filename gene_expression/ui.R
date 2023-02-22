@@ -7,6 +7,8 @@ ui <- fluidPage(
     navbarPage(
         title = "Gene Expression Analyses",
         theme = shinytheme("sandstone"),
+
+        # 1st panel: Summary
         tabPanel(
             title = "Summary",
             icon = icon("clipboard"),
@@ -14,6 +16,8 @@ ui <- fluidPage(
             DT::dataTableOutput("dataframe"),
             tags$footer("Sandrine Soeharjono (2023)")
         ),
+        
+        # 2nd panel: PCA
         tabPanel(
             title = "PCA",
             icon = icon("chart-scatter"),
@@ -27,11 +31,13 @@ ui <- fluidPage(
                 )
             ),
             mainPanel(
-                htmlOutput("pca_description"),
                 plotOutput(outputId = "pca")
+                htmlOutput("pca_description"),
             ),
             tags$footer("Sandrine Soeharjono (2023)")
         ),
+        
+        # 3rd panel: Hierarchical clustering
         tabPanel(
             title = "Hierarchical clustering",
             icon = icon("sitemap"),
@@ -57,6 +63,8 @@ ui <- fluidPage(
             ),
             tags$footer("Sandrine Soeharjono (2023)")
         ),
+        
+        # 4th panel: Differential expression
         tabPanel(
             title = "Differential Expression",
             icon = icon("dna"),

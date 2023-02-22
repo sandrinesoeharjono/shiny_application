@@ -11,6 +11,11 @@ library(GEOquery)
 library(reshape2)
 library(DESeq2)
 
+# Set seed (for reproducibility purposes)
+set.seed(1234)
+
+# PREPARE DATA ###########################################################################################################
+
 # Load the GDS file
 data <- getGEO(filename='GDS5027_full.soft.gz')
 
@@ -40,65 +45,68 @@ gexp_data <- gexp_data %>%
 # Take transpose of dataset (rows=samples, columns=genes)
 t_gexp_data = t(gexp_data)
 
-# Create metadata with 4 columns: sample, genotype.variation, protocol, other
-#metadata <- data.frame(data@dataTable@columns)
-#metadata = subset(metadata, select = -description)
-
-# 1) PCA
-set.seed(1234)
+# PCA ####################################################################################################################
+# Run PCA onto dataset
 pc <- prcomp(t_gexp_data, center = TRUE, scale = TRUE)
-attributes(pc)
 
-# 2) Hierarchical clustering
+# HIERARCHICAL CLUSTERING ################################################################################################
 # Remove missing data
 data_no_na <- na.omit(t_gexp_data)
+
 # Standardize the data
 df <- scale(data_no_na)
+
 # Calculate the distance matrix
 dist_mat <- dist(df, method = "euclidean")
 
-# 3) Differential expression {USING NEW DATASET}
+# DIFFERENTIAL EXPRESSION ###############################################################################################
 # TODO: use this dataset for all analyses
+# Fetch count data & metadata
 count_matrix <- read.csv(url("https://raw.githubusercontent.com/hbc/NGS_Data_Analysis_Course/master/sessionIII/data/Mov10_full_counts.txt"), sep = "\t", row.names = 1)
 metadata <- read.csv(url("https://raw.githubusercontent.com/hbc/NGS_Data_Analysis_Course/master/sessionIII/data/Mov10_full_meta.txt"), sep = "\t", row.names = 1)
-# Convert data to ‘tall’ format
+
+# Convert data to ‘tall’ format (for histogram)
 tall_raw_gexp <- melt(count_matrix)
-# Check that the sample names of count matrix match row names of phenodata (expected by DESeq2)
+
+# Check that the sample names of count matrix match the row names of the phenotypic data (expected by DESeq2)
 all(rownames(metadata) %in% colnames(count_matrix))
 all(rownames(metadata) == colnames(count_matrix))
-# Create DESeq2 object. For design give the column with factor variable in metadata or phenodata, which indicates the grouping of samples
+
+# Create DESeq2 object
 dds <- DESeqDataSetFromMatrix(countData = count_matrix, colData = metadata, design = ~ sampletype)
+
 # Pre-filter the genes that have low counts
 dds <- dds[rowSums(counts(dds)) >= 10,]
+
 # Add size factors to slot
 dds <- estimateSizeFactors(dds)
+
 # Perform differential expression analysis
 dds <- DESeq(dds)
 res <- results(dds)
 res <- lfcShrink(dds, coef = 2, res = res, type = 'normal')
+
 # Write results to file
 DEG_df = as.data.frame(res[order(res$padj),])
 write.csv(DEG_df, file="DEG_results.csv")
+
 # Generate normalized counts (median of ratios method)
 normalized_counts <- counts(dds, normalized = TRUE)
-# Convert normalized data to 'tall' format
+
+# Convert normalized data to 'tall' format (for histogram)
 tall_norm_gexp <- melt(normalized_counts)
 
-# Top 20 differentially expressed genes
+# Select the top 20 differentially expressed genes & obtain their normalized counts
 top20_sigDE_genes <- DEG_df[head(order(DEG_df$padj), 20),]
-# assumes the normalized count matrix was already generated in the beginning of session as global variable. See top
 top20_sigDE_normdf <- data.frame(normalized_counts[(rownames(normalized_counts) %in% rownames(top20_sigDE_genes)),])
-
-# get top20 genes normalized counts to plot with ggplot2
 rownames(top20_sigDE_normdf) -> top20_sigDE_normdf$gene
 top20_sigDE_normdf <- top20_sigDE_normdf[,c(ncol(top20_sigDE_normdf), (1:ncol(top20_sigDE_normdf)-1))] # reorder
 top20_sigDE_normdfl <- top20_sigDE_normdf %>% 
     gather("Sample", "Normalized_Counts", (colnames(top20_sigDE_normdf)[-1]))
 
-# Since it will be grouped based on factors it is important to let ggplot2 know that different replicates of same group are the same, for this. 
-# Otherwise each replicate will be a separate group
+# Correct for different metadata factors such that different replicates are considered in the same group
 metadata -> mov10_meta
 rownames(metadata) -> mov10_meta$Sample
 top20_sigDE_normdfl <- inner_join(mov10_meta, top20_sigDE_normdfl, multiple = "all")
 
-# 4) GSEA
+# GSEA ##################################################################################################################
