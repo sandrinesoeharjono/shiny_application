@@ -31,8 +31,8 @@ ui <- fluidPage(
                 )
             ),
             mainPanel(
-                plotOutput(outputId = "pca")
-                htmlOutput("pca_description"),
+                plotOutput(outputId = "pca"),
+                htmlOutput("pca_description")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
         ),
@@ -59,6 +59,7 @@ ui <- fluidPage(
             mainPanel(
                 plotOutput(outputId = "hier_ddg"),
                 htmlOutput("hierarchy_description"),
+                br(),
                 plotOutput(outputId = "hier_silhouette")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
@@ -98,6 +99,7 @@ ui <- fluidPage(
                 #br(),
                 plotOutput(outputId = "top_de_genes"),
                 htmlOutput("top_de_description"),
+                br(),
                 plotOutput(outputId = "volcano_plot"),
                 htmlOutput("volcano_description"),
                 br(),
