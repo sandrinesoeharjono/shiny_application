@@ -19,9 +19,23 @@ server <- function(input, output, session) {
     )
 
     # PCA ###############################################################################################################
+    # Only two PCs can be selected at a time
+    observe({
+      if(length(input$pc) > 2){
+          selected = tail(input$pc, 2)
+          updateCheckboxGroupInput(session, "pc", selected = selected)
+      }
+      if(length(input$pc) == 1){
+          selected = c(1, ifelse (input$pc == 1, 2, 1))
+          updateCheckboxGroupInput(session, "pc", selected = selected)
+      }
+    })
+
+    # PCA scatterplot
     output$pca <- renderPlot({
       ggbiplot(
         pc,
+        choices = c(as.numeric(input$pc[1]), as.numeric(input$pc[2])),
         obs.scale = 1,
         var.scale = 1,
         var.axes = FALSE,
@@ -39,7 +53,6 @@ server <- function(input, output, session) {
         ), size = 2
       ) +
       ggtitle(paste0("Principal Component Analysis of PC", input$pc[1], " vs. PC", input$pc[2])) +
-      # TODO: update plot according to PC choice in reactive mode
       theme(
         legend.direction = 'vertical',
         legend.position = 'right',
