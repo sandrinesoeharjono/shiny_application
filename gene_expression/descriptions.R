@@ -31,7 +31,7 @@ hier_description <- "<b>Description:</b><br><a href='https://towardsdatascience.
     The slider for the number of clusters allows you to select your desired level of granularity."
 
 # Description of silhouette width
-silhouette_description <- "<a href='https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html' Silhouette width</a> 
+silhouette_description <- "<a href='https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html'> Silhouette width</a> 
     is a widely used index for assessing the fit of individual objects in the classification, as well as the quality of clusters and the entire classification. 
     The silhouette plot displays a measure of how close each point in one cluster is to points in the neighboring clusters and thus provides a way to assess parameters 
     like number of clusters visually. This measure has a range of [-1, 1]. Silhouette coefficients (as these values are referred to as) near +1 indicate that the sample 
@@ -52,7 +52,7 @@ deg_description <- "<b>Description:</b><br><a href='https://genomebiology.biomed
     an R/Bioconductor package."
 
 # Description of the top differentially-expressed genes from DEG
-top_deg_description <- "Above we show the top 20 differentially expressed genes by the adjusted p-value."
+top_deg_description <- "We show below the top 20 differentially expressed genes by the adjusted p-value."
 
 # Description of a volcano plot
 vol_description <- "A <a href='https://training.galaxyproject.org/training-material/topics/transcriptomics/tutorials/rna-seq-viz-with-volcanoplot/tutorial.html'>volcano plot</a> 
@@ -71,7 +71,6 @@ deg_conclusion <- "<b>Next steps:</b><br>Due to the large number of genes, (e.g.
     To view this analysis, navigate to the next 'GSEA' tab!"
 
 # Description of GSEA
-gsea_description <- "<a href='https://www.gsea-msigdb.org/gsea/index.jsp' GSEA</a> is computational method that determines whether a set of genes shows 
-statistically significant, concordant differences between two biological states (e.g. phenotypes). It is typically used on mass spectrometry(MS)-based 
-proteomics or Next-Generation Sequencing (NGS) to identify insights into biological processes or pathways underlying a given phenotype.
-"
+gsea_description <- "<a href='https://www.gsea-msigdb.org/gsea/index.jsp'> GSEA </a> is computational method that determines whether a set of genes shows 
+    statistically significant, concordant differences between two biological states (e.g. phenotypes). It is typically used on mass spectrometry(MS)-based 
+    proteomics or Next-Generation Sequencing (NGS) to identify insights into biological processes or pathways underlying a given phenotype."

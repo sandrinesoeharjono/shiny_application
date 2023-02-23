@@ -176,6 +176,10 @@ server <- function(input, output, session) {
 
     output$hierarchy_description <- renderUI({HTML(hier_description)})
 
+    output$silhouette_description <- renderUI({HTML(silhouette_description)})
+
+    output$histogram_description <- renderUI({HTML(histogram_description)})
+
     output$diff_exp_description <- renderUI({HTML(deg_description)})
 
     output$top_de_description <- renderUI({HTML(top_deg_description)})
@@ -183,4 +187,6 @@ server <- function(input, output, session) {
     output$volcano_description <- renderUI({HTML(vol_description)})
 
     output$diff_exp_conclusion <- renderUI({HTML(deg_conclusion)})
+
+    output$gsea_description <- renderUI({HTML(gsea_description)})
 }

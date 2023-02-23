@@ -104,9 +104,10 @@ ui <- fluidPage(
             icon = icon("dna"),
             mainPanel(
                 htmlOutput(outputId = "diff_exp_description"),
+                br(),
+                htmlOutput(outputId = "top_de_description"),
                 plotOutput(outputId = "top_de_genes"),
                 DT::dataTableOutput("top_de_df"),
-                htmlOutput(outputId = "top_de_description"),
                 br(),
                 plotOutput(outputId = "volcano_plot"),
                 htmlOutput(outputId = "volcano_description"),
