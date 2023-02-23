@@ -24,7 +24,7 @@ ui <- fluidPage(
         # 2nd panel: PCA
         tabPanel(
             title = "PCA",
-            icon = icon("function"),
+            icon = icon("circle"),
             sidebarPanel(
                 checkboxGroupInput(
                     "pc",
@@ -73,7 +73,7 @@ ui <- fluidPage(
         # 4th panel: Expression data distribution
         tabPanel(
             title = "Distribution",
-            icon = icon("tally"),
+            icon = icon("database"),
             sidebarPanel(
                 sliderInput(
                     inputId = "bin_width",
@@ -126,7 +126,7 @@ ui <- fluidPage(
         # 6th panel: Gene Set Enrichment Analysis (GSEA)
         tabPanel(
             title = "GSEA",
-            icon = icon("dna"),
+            icon = icon("computer"),
             mainPanel(
                 htmlOutput(outputId = "gsea_description")
             ),

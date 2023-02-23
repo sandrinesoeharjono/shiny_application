@@ -40,7 +40,7 @@ silhouette_description <- "<a href='https://scikit-learn.org/stable/auto_example
     for the number of clusters <i>k</i>; try out different <i>k</i> to see which clustering shows the highest average silhouette score (dotted line)!"
 
 # Description of expression histograms
-histogram_description <- "<i><b>PLEASE NOTE: The dataset used in this tab and the following one us from a different source.</i></b><br><br>
+histogram_description <- "<i><b>PLEASE NOTE: The dataset used in this tab and the following ones are from a different source.</i></b><br><br>
     Here we show the distribution of gene expression in both raw and normalized datasets."
 
 # Description of differential expression (DEG) using DESeq2
