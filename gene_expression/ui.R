@@ -108,6 +108,8 @@ ui <- fluidPage(
             title = "Differential Expression",
             icon = icon("dna"),
             mainPanel(
+                DT::dataTableOutput("DE_sig_genes"),
+                br(),
                 htmlOutput(outputId = "diff_exp_description"),
                 br(),
                 htmlOutput(outputId = "top_de_description"),

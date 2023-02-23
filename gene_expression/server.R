@@ -113,8 +113,8 @@ server <- function(input, output, session) {
         axis.ticks.x = element_blank()
       )
     })
-    
-    # DIFFERENTIAL EXPRESSION ###############################################################################################
+
+    # DISTRIBUTION OF EXPRESSION DATA ###################################################################################
     # Histogram of raw counts
     output$raw_exp_histogram <- renderPlot({
       selected_data <- subset(tall_raw_gexp, value > input$cutoff_threshold)
@@ -146,6 +146,10 @@ server <- function(input, output, session) {
         axis.title = element_text(size = 14, colour = "#555555")
       )
     })
+
+    # DIFFERENTIAL EXPRESSION ###############################################################################################
+    # Table of significant genes from differential expression
+    output$DE_sig_genes <- renderDataTable({DEG_df})
 
     # Plot of top 20 differentially-expressed genes
     output$top_de_genes <- renderPlot({

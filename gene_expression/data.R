@@ -92,7 +92,7 @@ res <- lfcShrink(dds, coef = 2, res = res, type = 'normal')
 
 # Write results to file
 DEG_df = as.data.frame(res[order(res$padj),])
-write.csv(DEG_df, file="DEG_results.csv")
+write.csv(DEG_df, file = "DEG_results.csv")
 
 # Generate normalized counts (median of ratios method)
 normalized_counts <- counts(dds, normalized = TRUE)
