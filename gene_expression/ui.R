@@ -12,7 +12,11 @@ ui <- fluidPage(
         tabPanel(
             title = "Summary",
             icon = icon("clipboard"),
-            mainPanel(width = 12, strong("Overview"), htmlOutput("general_description")),
+            mainPanel(
+                width = 12,
+                strong("Overview"), 
+                htmlOutput(outputId = "general_description")
+            ),
             DT::dataTableOutput("dataframe"),
             tags$footer("Sandrine Soeharjono (2023)")
         ),
@@ -20,19 +24,19 @@ ui <- fluidPage(
         # 2nd panel: PCA
         tabPanel(
             title = "PCA",
-            icon = icon("function"), # chart-scatter
+            icon = icon("function"),
             sidebarPanel(
                 checkboxGroupInput(
                     "pc",
                     "Select two principal components (PCs) for visualization:",
-                    choiceNames = paste0("PC",1:6),
-                    selected = c(1,2),
+                    choiceNames = paste0("PC", 1:6),
+                    selected = c(1, 2),
                     choiceValues = 1:6
                 )
             ),
             mainPanel(
                 plotOutput(outputId = "pca"),
-                htmlOutput("pca_description")
+                htmlOutput(outputId = "pca_description")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
         ),
@@ -58,9 +62,10 @@ ui <- fluidPage(
             ),
             mainPanel(
                 plotOutput(outputId = "hier_ddg"),
-                htmlOutput("hierarchy_description"),
+                htmlOutput(outputId = "hierarchy_description"),
                 br(),
-                plotOutput(outputId = "hier_silhouette")
+                plotOutput(outputId = "hier_silhouette"),
+                htmlOutput(outputId = "silhouette_description")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
         ),
@@ -70,14 +75,6 @@ ui <- fluidPage(
             title = "Distribution",
             icon = icon("tally"),
             sidebarPanel(
-               HTML('<script type="text/javascript">
-                    $(document).ready(function() {
-                    $("#DownloadButton").click(function() {
-                        $("#Download").text("Loading...");
-                    });
-                    });
-                </script>
-                '),
                 sliderInput(
                     inputId = "bin_width",
                     label = "Select the desired bin width:",
@@ -86,9 +83,11 @@ ui <- fluidPage(
                     value = 1
                 ),
                 br(),
-                radioButtons("cutoff_threshold", "Select the threshold for minimal value cut-off:",
-                choiceNames = list("None", 500, 1000, 1500),
-                choiceValues = list(0, 500, 1000, 1500)
+                radioButtons(
+                    inputId = "cutoff_threshold",
+                    label = "Select the threshold for minimal value cut-off:",
+                    choiceNames = list("None", 500, 1000, 1500),
+                    choiceValues = list(0, 500, 1000, 1500)
                 )
             ),
             mainPanel(
@@ -104,14 +103,14 @@ ui <- fluidPage(
             title = "Differential Expression",
             icon = icon("dna"),
             mainPanel(
-                htmlOutput("diff_exp_description"),
+                htmlOutput(outputId = "diff_exp_description"),
                 plotOutput(outputId = "top_de_genes"),
-                htmlOutput("top_de_description"),
+                htmlOutput(outputId = "top_de_description"),
                 br(),
                 plotOutput(outputId = "volcano_plot"),
-                htmlOutput("volcano_description"),
+                htmlOutput(outputId = "volcano_description"),
                 br(),
-                htmlOutput("diff_exp_conclusion")
+                htmlOutput(outputId = "diff_exp_conclusion")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
         )

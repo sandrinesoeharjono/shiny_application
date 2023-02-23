@@ -30,6 +30,15 @@ hier_description <- "<b>Description:</b><br><a href='https://towardsdatascience.
     This can be thought of as a <i>top-down</i> approach.<br><br>In this application, you can compare 5 different methods of agglomerative clustering using the left-side panel.
     The slider for the number of clusters allows you to select your desired level of granularity."
 
+# Description of silhouette width
+silhouette_description <- "<a href='https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html' Silhouette width</a> 
+    is a widely used index for assessing the fit of individual objects in the classification, as well as the quality of clusters and the entire classification. 
+    The silhouette plot displays a measure of how close each point in one cluster is to points in the neighboring clusters and thus provides a way to assess parameters 
+    like number of clusters visually. This measure has a range of [-1, 1]. Silhouette coefficients (as these values are referred to as) near +1 indicate that the sample 
+    is far away from the neighboring clusters. A value of 0 indicates that the sample is on or very close to the decision boundary between two neighboring clusters and 
+    negative values indicate that those samples might have been assigned to the wrong cluster. <br>In this example, the silhouette analysis is used to choose an optimal value 
+    for the number of clusters <i>k</i>; try out different <i>k</i> to see which clustering shows the highest average silhouette score (dotted line)!"
+
 # Description of expression histograms
 histogram_description <- "<i><b>PLEASE NOTE: The dataset used in this tab and the following one us from a different source.</i></b><br><br>
     Here we show the distribution of gene expression in both raw and normalized datasets."

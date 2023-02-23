@@ -58,10 +58,10 @@ server <- function(input, output, session) {
       ggtitle(paste0("Principal Component Analysis of PC", input$pc[1], " vs. PC", input$pc[2])) +
       theme(
         legend.direction = 'vertical',
-        legend.position = 'right',
+        legend.position = 'bottom',
         plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
         axis.text = element_text(size = 11, colour = "#555555"),
-        axis.title = element_text(size = 14, colour = "#555555"),
+        axis.title = element_text(size = 14, colour = "#555555")
       )
     })
 
@@ -78,7 +78,7 @@ server <- function(input, output, session) {
       theme(
         plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
         axis.text = element_text(size = 11, colour = "#555555"),
-        axis.title = element_text(size = 14, colour = "#555555"),
+        axis.title = element_text(size = 14, colour = "#555555")
       )
     })
 
@@ -95,6 +95,7 @@ server <- function(input, output, session) {
         plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
         axis.text.y = element_text(size = 11, colour = "#555555"),
         axis.title = element_text(size = 14, colour = "#555555"),
+        axis.ticks.x = element_blank()
       )
     })
     
@@ -111,7 +112,7 @@ server <- function(input, output, session) {
       theme(
         plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
         axis.text = element_text(size = 11, colour = "#555555"),
-        axis.title = element_text(size = 14, colour = "#555555"),
+        axis.title = element_text(size = 14, colour = "#555555")
       )
     })
     
@@ -127,7 +128,7 @@ server <- function(input, output, session) {
       theme(
         plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
         axis.text = element_text(size = 11, colour = "#555555"),
-        axis.title = element_text(size = 14, colour = "#555555"),
+        axis.title = element_text(size = 14, colour = "#555555")
       )
     })
 
@@ -143,8 +144,8 @@ server <- function(input, output, session) {
       theme_bw() +
       theme(
         plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
-        #axis.text = element_text(size = 11, colour = "#555555"),
-        axis.title = element_text(size = 14, colour = "#555555"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+        axis.title = element_text(size = 14, colour = "#555555")
       )
     })
     
@@ -155,12 +156,12 @@ server <- function(input, output, session) {
         lab = rownames(res),
         x = 'log2FoldChange',
         y = 'pvalue'
-      ) + theme_bw +
-      theme(
-        plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
-        axis.text = element_text(size = 11, colour = "#555555"),
-        axis.title = element_text(size = 14, colour = "#555555"),
-      )
+      ) #+ theme_bw +
+      #theme(
+      #  plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
+      #  axis.text = element_text(size = 11, colour = "#555555"),
+      #  axis.title = element_text(size = 14, colour = "#555555"),
+      #)
     })
 
     # TEXT (ON ALL PAGES) ###############################################################################################
