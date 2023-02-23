@@ -5,6 +5,7 @@ library(DT)
 library(wesanderson)
 library(EnhancedVolcano)
 library(factoextra)
+library(pheatmap)
 
 # Import data & dashboard descriptions
 source("data.R")
@@ -158,6 +159,19 @@ server <- function(input, output, session) {
           'Top 20 Differentially-Expressed Genes'
       )
     )
+
+    # Heatmap of patients clustered by top 100 differentially-expressed genes
+    output$top_100_de_cluster <- renderPlot({
+      pheatmap(
+        top100_sigDE_normdf,
+        scale = "row",
+        cluster_rows = TRUE, 
+        show_rownames = FALSE,
+        border_color = NA, 
+        fontsize_row = 10, 
+        main = "Clustering of Samples by Normalized Counts of Top 100 Genes with Small padj Values"
+      )
+    })
     
     # Volcano scatter plot
     output$volcano_plot <- renderPlot({
@@ -183,6 +197,8 @@ server <- function(input, output, session) {
     output$diff_exp_description <- renderUI({HTML(deg_description)})
 
     output$top_de_description <- renderUI({HTML(top_deg_description)})
+
+    output$top_100_de_cluster_description <- renderUI({HTML(top_100_de_cluster_description)})
 
     output$volcano_description <- renderUI({HTML(vol_description)})
 

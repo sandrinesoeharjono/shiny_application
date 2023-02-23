@@ -97,8 +97,8 @@ normalized_counts <- counts(dds, normalized = TRUE)
 tall_norm_gexp <- melt(normalized_counts)
 
 # Select the top 20 differentially expressed genes & obtain their normalized counts
-top20_sigDE_genes <- DEG_df[head(order(DEG_df$padj), 20),]
-top20_sigDE_normdf <- data.frame(normalized_counts[(rownames(normalized_counts) %in% rownames(top20_sigDE_genes)),])
+top20_sigDE <- DEG_df[head(order(DEG_df$padj), 20),]
+top20_sigDE_normdf <- data.frame(normalized_counts[(rownames(normalized_counts) %in% rownames(top20_sigDE)),])
 rownames(top20_sigDE_normdf) -> top20_sigDE_normdf$gene
 top20_sigDE_normdf <- top20_sigDE_normdf[,c(ncol(top20_sigDE_normdf), (1:ncol(top20_sigDE_normdf)-1))] # reorder
 top20_sigDE_normdfl <- top20_sigDE_normdf %>% 
@@ -108,5 +108,9 @@ top20_sigDE_normdfl <- top20_sigDE_normdf %>%
 metadata -> mov10_meta
 rownames(metadata) -> mov10_meta$Sample
 top20_sigDE_normdfl <- inner_join(mov10_meta, top20_sigDE_normdfl, multiple = "all")
+
+# Select the top 100 differentially expressed genes
+top100_sigDE <- DEG_df[head(order(DEG_df$padj), 100),]
+top100_sigDE_normdf <- data.frame(normalized_counts[(rownames(normalized_counts) %in% rownames(top100_sigDE)),])
 
 # GSEA ##################################################################################################################

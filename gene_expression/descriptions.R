@@ -52,10 +52,13 @@ deg_description <- "<b>Description:</b><br><a href='https://genomebiology.biomed
     an R/Bioconductor package."
 
 # Description of the top differentially-expressed genes from DEG
-top_deg_description <- "We show below the top 20 differentially expressed genes by the adjusted p-value."
+top_deg_description <- "We show below the top 20 differentially expressed genes by the adjusted p-value:"
+
+# Description of clustering based off the top 100 differentially-expressed genes from DEG
+top_100_de_cluster_description <- "<b>Patient clustering:</b><br>How do the patients cluster based off their top 100 differentially-expressed genes? Let's see!"
 
 # Description of a volcano plot
-vol_description <- "A <a href='https://training.galaxyproject.org/training-material/topics/transcriptomics/tutorials/rna-seq-viz-with-volcanoplot/tutorial.html'>volcano plot</a> 
+vol_description <- "<b>Volcano plots:</b><br>Finally, a <a href='https://training.galaxyproject.org/training-material/topics/transcriptomics/tutorials/rna-seq-viz-with-volcanoplot/tutorial.html'>volcano plot</a> 
     is a type of scatterplot that shows statistical significance (P-value) versus magnitude of change (fold change).
     They are commonly used to display the results of RNA-seq or other omics experiments, since they enable a quick visual identification of genes 
     with large fold changes that are also statistically significant; these may be the most biologically significant genes. In a volcano plot, 
@@ -64,8 +67,8 @@ vol_description <- "A <a href='https://training.galaxyproject.org/training-mater
     <a href='https://bioconductor.org/packages/devel/bioc/vignettes/EnhancedVolcano/inst/doc/EnhancedVolcano.html'>EnhancedVolcano</a>."
     
 # Description of a conclusion to DEG
-deg_conclusion <- "<b>Next steps:</b><br>Due to the large number of genes, (e.g., >20,000 in the human genome), multiple testing correction such as Bonferroni correction is usually applied. 
-    Because the number of gene that are differentially expressed between samples may still be high (e.g., >1000), another method to better understand and interpret 
+deg_conclusion <- "<b>Next steps:</b><br>Due to the large number of genes (e.g. > 20,000 in the human genome), multiple testing correction such as Bonferroni correction is usually applied. 
+    Because the number of gene that are differentially expressed between samples may still be high (e.g. > 1000), another method to better understand and interpret 
     the meaning of so many gene expression changes is needed. One example is “gene set enrichment” or GSEA (Hung et al., 2012; Subramanian et al., 2005): 
     here, a group of genes that belong to a particular category that are enriched in one sample is compared to another sample. 
     To view this analysis, navigate to the next 'GSEA' tab!"
