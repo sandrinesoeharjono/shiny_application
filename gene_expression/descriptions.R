@@ -17,7 +17,8 @@ gen_description <- paste0(
 pca_description <- "<b>Description:</b><br>PCA is a linear dimensionality reduction of data to project it onto a lower dimensional space.
     It increases interpretability while minimizing information loss, by creating new uncorrelated variables 
     that successively maximize variance. These principal components (PCs) reduce to solve an eigenvalue/eigenvector 
-    problem (<a href='https://royalsocietypublishing.org/doi/10.1098/rsta.2015.0202'>Jolliffe IT & Cadima J, 2016</a>)."
+    problem (<a href='https://royalsocietypublishing.org/doi/10.1098/rsta.2015.0202'>Jolliffe IT & Cadima J, 2016</a>).<br><br>
+    Below illustrates a direct comparison of the proportion of explained variance for each of the 6 first PCs:"
 
 # Description of hierarchical clustering
 hier_description <- "<b>Description:</b><br><a href='https://towardsdatascience.com/understanding-the-concept-of-hierarchical-clustering-technique-c6e8243758ec'>Hierarchical clustering</a> 
@@ -40,7 +41,8 @@ silhouette_description <- "<a href='https://scikit-learn.org/stable/auto_example
     for the number of clusters <i>k</i>; try out different <i>k</i> to see which clustering shows the highest average silhouette score (dotted line)!"
 
 # Description of expression histograms
-histogram_description <- "<i><b>PLEASE NOTE: The dataset used in this tab and the following ones are from a different source.</i></b><br><br>
+histogram_description <- "<i><b>PLEASE NOTE: The dataset used in this tab and the following ones are from a different 
+    <a href='https://raw.githubusercontent.com/hbc/NGS_Data_Analysis_Course/master/sessionIII/data/Mov10_full_counts.txt'> source</a>.</i></b><br><br>
     Here we show the distribution of gene expression in both raw and normalized datasets."
 
 # Description of differential expression (DEG) using DESeq2
@@ -52,7 +54,7 @@ deg_description <- "<b>Description:</b><br><a href='https://genomebiology.biomed
     an R/Bioconductor package."
 
 # Description of the top differentially-expressed genes from DEG
-top_deg_description <- "We show below the top 20 differentially expressed genes by the adjusted p-value:"
+top_deg_description <- "We show below the top 20 differentially expressed genes by the adjusted p-value:<br>"
 
 # Description of clustering based off the top 100 differentially-expressed genes from DEG
 top_100_de_cluster_description <- "<b>Patient clustering:</b><br>How do the patients cluster based off their top 100 differentially-expressed genes? Let's see!"

@@ -36,7 +36,10 @@ ui <- fluidPage(
             ),
             mainPanel(
                 plotOutput(outputId = "pca"),
-                htmlOutput(outputId = "pca_description")
+                br(),
+                htmlOutput(outputId = "pca_description"),
+                br(),
+                plotOutput(outputId = "prop_variance")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
         ),
@@ -92,7 +95,9 @@ ui <- fluidPage(
             ),
             mainPanel(
                 htmlOutput(outputId = "histogram_description"),
+                br(),
                 plotOutput(outputId = "raw_exp_histogram"),
+                br(),
                 plotOutput(outputId = "norm_exp_histogram")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
@@ -106,6 +111,7 @@ ui <- fluidPage(
                 htmlOutput(outputId = "diff_exp_description"),
                 br(),
                 htmlOutput(outputId = "top_de_description"),
+                br(),
                 plotOutput(outputId = "top_de_genes"),
                 DT::dataTableOutput("top_de_df"),
                 br(),

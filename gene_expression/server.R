@@ -36,7 +36,6 @@ server <- function(input, output, session) {
     })
 
     # PCA scatterplot
-    ### TODO: Use 'groups' in reactive mode for interactive ellipse
     output$pca <- renderPlot({
       ggbiplot(
         pc,
@@ -61,6 +60,20 @@ server <- function(input, output, session) {
       theme(
         legend.direction = 'vertical',
         legend.position = 'bottom',
+        plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
+        axis.text = element_text(size = 11, colour = "#555555"),
+        axis.title = element_text(size = 14, colour = "#555555")
+      )
+    })
+
+    output$prop_variance <- renderPlot({
+      ggplot(prop_variance, aes(x = row.names(prop_variance), y = prop_var)) +
+      geom_bar(stat = "identity", fill = "#00BFC4") + 
+      theme_bw() +
+      ggtitle("Proportion of Explained Variance per PC") +
+      xlab("Principal Component (PC)") +
+      ylab("Proportion of Variance (%)") + 
+      theme(
         plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
         axis.text = element_text(size = 11, colour = "#555555"),
         axis.title = element_text(size = 14, colour = "#555555")
@@ -106,7 +119,7 @@ server <- function(input, output, session) {
     output$raw_exp_histogram <- renderPlot({
       selected_data <- subset(tall_raw_gexp, value > input$cutoff_threshold)
       ggplot(selected_data, aes(x = value)) + 
-      geom_histogram(binwidth = input$bin_width, color = "black", fill = "red") +
+      geom_histogram(binwidth = input$bin_width, fill = "#00BFC4") +
       xlab("Raw Expression Counts") +
       ylab("Number of Genes") + 
       ggtitle("Histogram of Raw Expression Values") + 
@@ -122,7 +135,7 @@ server <- function(input, output, session) {
     output$norm_exp_histogram <- renderPlot({
       selected_data <- subset(tall_norm_gexp, value > input$cutoff_threshold)
       ggplot(selected_data, aes(x = value)) + 
-      geom_histogram(binwidth = input$bin_width, color = "black", fill = "red") +
+      geom_histogram(binwidth = input$bin_width, fill = "#00BFC4") +
       xlab("Normalized Expression Counts") +
       ylab("Number of Genes") + 
       ggtitle("Histogram of Normalized Expression Values") + 

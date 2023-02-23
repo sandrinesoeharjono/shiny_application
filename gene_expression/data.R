@@ -49,6 +49,10 @@ t_gexp_data = t(gexp_data)
 # Run PCA onto dataset
 pc <- prcomp(t_gexp_data, center = TRUE, scale = TRUE)
 
+# Proportion of variance (%) for 6 first PCs
+prop_variance <- data.frame(summary(pc)$importance[2,][1:6])
+colnames(prop_variance) <- c("prop_var")
+
 # HIERARCHICAL CLUSTERING ################################################################################################
 # Remove missing data
 data_no_na <- na.omit(t_gexp_data)
