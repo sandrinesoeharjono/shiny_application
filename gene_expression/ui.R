@@ -114,6 +114,16 @@ ui <- fluidPage(
                 htmlOutput(outputId = "diff_exp_conclusion")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
+        ),
+
+        # 6th panel: Gene Set Enrichment Analysis (GSEA)
+        tabPanel(
+            title = "GSEA",
+            icon = icon("dna"),
+            mainPanel(
+                htmlOutput(outputId = "gsea_description")
+            ),
+            tags$footer("Sandrine Soeharjono (2023)")
         )
     )
 )

@@ -70,3 +70,8 @@ deg_conclusion <- "<b>Next steps:</b><br>Due to the large number of genes, (e.g.
     here, a group of genes that belong to a particular category that are enriched in one sample is compared to another sample. 
     To view this analysis, navigate to the next 'GSEA' tab!"
 
+# Description of GSEA
+gsea_description <- "<a href='https://www.gsea-msigdb.org/gsea/index.jsp' GSEA</a> is computational method that determines whether a set of genes shows 
+statistically significant, concordant differences between two biological states (e.g. phenotypes). It is typically used on mass spectrometry(MS)-based 
+proteomics or Next-Generation Sequencing (NGS) to identify insights into biological processes or pathways underlying a given phenotype.
+"
