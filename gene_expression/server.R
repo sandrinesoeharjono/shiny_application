@@ -13,10 +13,11 @@ source("descriptions.R")
 server <- function(input, output, session) {
     # OVERVIEW PAGE ###############################################################################################
     # Dataset in table format
-    output$dataframe <- renderDataTable(
+    output$orig_data <- renderDataTable(
       gexp_data,
       caption = htmltools::tags$caption(
-          style = 'caption-side:top; text-align:center; color:#555555; font-weight:bold; font-size: 125%', 'Full Expression Dataset'
+          style = 'caption-side:top; text-align:center; color:#555555; font-weight:bold; font-size: 125%',
+          'Full Expression Dataset'
       )
     )
 
@@ -148,6 +149,15 @@ server <- function(input, output, session) {
         axis.title = element_text(size = 14, colour = "#555555")
       )
     })
+
+    # Table of top 20 differentially-expressed genes
+    output$top_de_df <- renderDataTable(
+      top20_sigDE_normdfl,
+      caption = htmltools::tags$caption(
+          style = 'caption-side:top; text-align:center; color:#555555; font-weight:bold; font-size: 125%',
+          'Top 20 Differentially-Expressed Genes'
+      )
+    )
     
     # Volcano scatter plot
     output$volcano_plot <- renderPlot({
@@ -156,12 +166,7 @@ server <- function(input, output, session) {
         lab = rownames(res),
         x = 'log2FoldChange',
         y = 'pvalue'
-      ) #+ theme_bw +
-      #theme(
-      #  plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
-      #  axis.text = element_text(size = 11, colour = "#555555"),
-      #  axis.title = element_text(size = 14, colour = "#555555"),
-      #)
+      )
     })
 
     # TEXT (ON ALL PAGES) ###############################################################################################

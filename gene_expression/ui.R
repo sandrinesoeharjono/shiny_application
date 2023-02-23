@@ -17,7 +17,7 @@ ui <- fluidPage(
                 strong("Overview"), 
                 htmlOutput(outputId = "general_description")
             ),
-            DT::dataTableOutput("dataframe"),
+            DT::dataTableOutput("orig_data"),
             tags$footer("Sandrine Soeharjono (2023)")
         ),
         
@@ -105,6 +105,7 @@ ui <- fluidPage(
             mainPanel(
                 htmlOutput(outputId = "diff_exp_description"),
                 plotOutput(outputId = "top_de_genes"),
+                DT::dataTableOutput("top_de_df"),
                 htmlOutput(outputId = "top_de_description"),
                 br(),
                 plotOutput(outputId = "volcano_plot"),
