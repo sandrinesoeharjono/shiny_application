@@ -1,15 +1,16 @@
 # Load packages
-#options(repos = BiocManager::repositories())
+library(BiocManager)
+options(repos = BiocManager::repositories())
 library(dplyr)
 library(tidyr)
 library(cluster)
 library(devtools)
 library(ggbiplot)
-library(BiocManager)
 library(Biobase)
 library(GEOquery)
 library(reshape2)
 library(DESeq2)
+library(fgsea)
 
 # Set seed (for reproducibility purposes)
 set.seed(1234)
@@ -118,3 +119,44 @@ top100_sigDE <- DEG_df[head(order(DEG_df$padj), 100),]
 top100_sigDE_normdf <- data.frame(normalized_counts[(rownames(normalized_counts) %in% rownames(top100_sigDE)),])
 
 # GSEA ##################################################################################################################
+# Generate gene list for GSEA
+print("We will use the top 100 DE genes as a gene set.")
+gene_list = t(top100_sigDE)
+names(gene_list) <- colnames(gene_list)
+if (any(duplicated(names(gene_list)))){
+    warning("Duplicates in gene names")
+    gene_list = gene_list[!duplicated(names(gene_list))]
+}
+gene_list = sort(gene_list, decreasing = TRUE)
+
+# GSEA analysis
+go_pathways <- gmtPathways("GSEATutorial/Human_GO_AllPathways_no_GO_iea_April_15_2013_symbol.gmt")
+print(paste0("RUNNING GSEA ON ", length(gene_list), " GENES AND ", length(go_pathways), " GO PATHWAYS."))
+
+print("Running GSEA...")
+gsea_result <- fgsea(
+    pathways=go_pathways, 
+    stats=gene_list,
+    minSize=10,
+    maxSize=500,
+    nperm=10000
+) %>% as.data.frame()
+print(paste("Obtained", nrow(gsea_result), "pathways in result."))
+
+# Filter by p-value & sort by descending NES
+pval = 0.05
+sig_gsea_result <- gsea_result %>% 
+    #dplyr::filter(padj < !!pval) #%>% 
+    arrange(dplyr::desc(NES))
+message(paste("Number of signficant gene sets =", nrow(sig_gsea_result)))
+
+#message("Collapsing Pathways -----")
+#concise_pathways = collapsePathways(data.table::as.data.table(sig_gsea_result),
+#                                    pathways = myGO,
+#                                    stats = gene_list)
+#sig_gsea_result = sig_gsea_result[sig_gsea_result$pathway %in% concise_pathways$mainPathways, ]
+#message(paste("Number of gene sets after collapsing =", nrow(sig_gsea_result)))
+
+sig_gsea_result$Enrichment = ifelse(sig_gsea_result$NES > 0, "Up-regulated", "Down-regulated")
+filtRes = rbind(head(sig_gsea_result, n=10), tail(sig_gsea_result, n=10))
+print(filtRes)

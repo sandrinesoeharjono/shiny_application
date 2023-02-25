@@ -200,6 +200,34 @@ server <- function(input, output, session) {
       )
     })
 
+    # GSEA ############################################################################################################
+    # Plot of NES per pathway for top 10
+    total_up = sum(gsea_result$Enrichment == "Up-regulated")
+    total_down = sum(gsea_result$Enrichment == "Down-regulated")
+    colos <- setNames(c("firebrick2", "dodgerblue2"), c("Up-regulated", "Down-regulated"))
+
+    output$gsea_plot <- renderPlot({
+      ggplot(filtRes, aes(reorder(pathway, NES), NES)) +
+        geom_point( aes(fill = Enrichment, size = size), shape=21) +
+        scale_fill_manual(values = colos) +
+        scale_size_continuous(range = c(2,10)) +
+        geom_hline(yintercept = 0) +
+        coord_flip() +
+        labs(
+          x="Pathway",
+          y="Normalized Enrichment Score",
+          title=paste0("Top 10 (Total pathways: Up=", total_up,", Down=", total_down, ")")
+        )
+    })
+
+    output$gsea_stats <- renderDataTable(
+      sig_gsea_result,
+      caption = htmltools::tags$caption(
+          style = 'caption-side:top; text-align:center; color:#555555; font-weight:bold; font-size: 125%',
+          'GSEA Results: Pathways Significantly Enriched'
+      )
+    )
+
     # TEXT (ON ALL PAGES) ###############################################################################################
     output$general_description <- renderUI({HTML(gen_description)})
 
