@@ -138,9 +138,9 @@ ui <- fluidPage(
             mainPanel(
                 htmlOutput(outputId = "gsea_description"),
                 br(),
-                plotOutput(outputId = "gsea_plot"),
+                DT::dataTableOutput("gsea_stats"),
                 br(),
-                DT::dataTableOutput("gsea_stats")
+                plotOutput(outputId = "gsea_plot")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
         )
