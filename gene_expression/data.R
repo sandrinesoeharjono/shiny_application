@@ -129,10 +129,11 @@ if (any(duplicated(names(gene_list)))){
 }
 gene_list = sort(gene_list, decreasing = TRUE)
 
-# GSEA analysis
+# Load pathway data
 go_pathways <- gmtPathways("GSEATutorial/Human_GO_AllPathways_no_GO_iea_April_15_2013_symbol.gmt")
 print(paste0("RUNNING GSEA ON ", length(gene_list), " GENES AND ", length(go_pathways), " GO PATHWAYS."))
 
+# Run GSEA analysis
 print("Running GSEA...")
 gsea_result <- fgsea(
     pathways=go_pathways, 
@@ -143,32 +144,12 @@ gsea_result <- fgsea(
 ) %>% as.data.frame()
 print(paste("Obtained", nrow(gsea_result), "pathways in result."))
 
-# Filter by p-value & sort by descending NES
+# Add 'Enrichment' column to easily separate the pathways in up/down-regulated categories
+gsea_result$Enrichment = ifelse(gsea_result$NES > 0, "Up-regulated", "Down-regulated")
+
+# Filter entries by p-value & sort by descending NES
 pval = 0.05
 sig_gsea_result <- gsea_result %>% 
     #dplyr::filter(padj < !!pval) #%>% 
     arrange(dplyr::desc(NES))
 print(paste("Number of signficant gene sets =", nrow(sig_gsea_result)))
-
-# Rename table headers
-lookup <- c(
-    pval = "P-Value",
-    padj = "Adjusted P-Value",
-    size = "Size",
-    leadingEdge = "Leading Edge",
-    nMoreExtreme = "N(score>ES)"
-)
-sig_gsea_result <- sig_gsea_result %>%
-    separate_wider_delim(pathway, "%", names = c("Pathway Name", "Database", "Pathway ID")) %>%
-    rename(all_of(lookup))
-print(head(sig_gsea_result))
-
-#print("Collapsing Pathways -----")
-#concise_pathways = collapsePathways(data.table::as.data.table(sig_gsea_result),
-#                                    pathways = go_pathways,
-#                                    stats = gene_list)
-#sig_gsea_result = sig_gsea_result[sig_gsea_result$pathway %in% concise_pathways$mainPathways, ]
-#print(paste("Number of gene sets after collapsing =", nrow(sig_gsea_result)))
-
-# Add 'Enrichment' column to easily separate the pathways in up/down-regulated categories
-sig_gsea_result$Enrichment = ifelse(sig_gsea_result$NES > 0, "Up-regulated", "Down-regulated")

@@ -77,9 +77,9 @@ deg_conclusion <- "<b>Next steps:</b><br>Due to the large number of genes (e.g. 
 
 # Description of GSEA
 gsea_description <- "<a href='https://www.gsea-msigdb.org/gsea/index.jsp'> GSEA </a> is computational method that determines whether a set of genes shows 
-    statistically significant, concordant differences between two biological states (e.g. phenotypes). It is typically used on mass spectrometry(MS)-based 
+    statistically significant, concordant differences between two biological states (e.g. phenotypes). It is typically used on mass spectrometry (MS)-based 
     proteomics or Next-Generation Sequencing (NGS) to identify insights into biological processes or pathways underlying a given phenotype.<br><br>
-    The analysis is performed by:<br>
+    <b>The analysis is performed by:</b><br>
     - Ranking all genes in the data set<br>
     - Identifying the rank positions of all members of the gene set in the ranked data set<br>
     - Calculating an enrichment score (ES) that represents the difference between the observed rankings and that which would be expected assuming a random rank distribution.

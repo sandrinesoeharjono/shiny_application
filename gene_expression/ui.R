@@ -140,7 +140,9 @@ ui <- fluidPage(
                 br(),
                 DT::dataTableOutput("gsea_stats"),
                 br(),
-                plotOutput(outputId = "gsea_plot")
+                plotOutput(outputId = "gsea_plot"),
+                br(),
+                plotOutput(outputId = "most_enriched_pathway")
             ),
             tags$footer("Sandrine Soeharjono (2023)")
         )

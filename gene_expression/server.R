@@ -6,6 +6,7 @@ library(wesanderson)
 library(EnhancedVolcano)
 library(factoextra)
 library(pheatmap)
+library(stringr)
 
 # Import data & dashboard descriptions
 source("data.R")
@@ -201,6 +202,27 @@ server <- function(input, output, session) {
     })
 
     # GSEA ############################################################################################################
+    # Table of GSEA stats
+    header_rename <- c(
+        pval = "P-Value",
+        padj = "Adjusted P-Value",
+        size = "Size",
+        leadingEdge = "Leading Edge",
+        nMoreExtreme = "N(score>ES)"
+    )
+    # Rename table headers & separate first column into three
+    pretty_gsea_result <- sig_gsea_result %>%
+        separate_wider_delim(pathway, "%", names = c("Pathway Name", "Database", "Pathway ID")) %>%
+        rename(header_rename)
+
+    output$gsea_stats <- renderDataTable(
+      pretty_gsea_result,
+      caption = htmltools::tags$caption(
+          style = 'caption-side:top; text-align:center; color:#555555; font-weight:bold; font-size: 125%',
+          'GSEA: Significantly Enriched Pathways'
+      )
+    )
+
     # Plot of NES per pathway for top 10
     total_up = sum(gsea_result$Enrichment == "Up-regulated")
     total_down = sum(gsea_result$Enrichment == "Down-regulated")
@@ -210,7 +232,7 @@ server <- function(input, output, session) {
     filtRes = rbind(head(sig_gsea_result, n=10), tail(sig_gsea_result, n=10))
     output$gsea_plot <- renderPlot({
       ggplot(filtRes, aes(reorder(pathway, NES), NES)) +
-        geom_point( aes(fill = Enrichment, size = size), shape=21) +
+        geom_point(aes(fill = Enrichment, size = size), shape=21) +
         scale_fill_manual(values = colos) +
         scale_size_continuous(range = c(2,10)) +
         geom_hline(yintercept = 0) +
@@ -218,17 +240,19 @@ server <- function(input, output, session) {
         labs(
           x="Pathway",
           y="Normalized Enrichment Score",
-          title=paste0("Top 10 (Total pathways: Up=", total_up,", Down=", total_down, ")")
+          title=paste0("NES of Top & Bottom 10 Pathways\n(Total Pathways: Up=", total_up,", Down=", total_down, ")")
         )
     })
 
-    output$gsea_stats <- renderDataTable(
-      sig_gsea_result,
-      caption = htmltools::tags$caption(
-          style = 'caption-side:top; text-align:center; color:#555555; font-weight:bold; font-size: 125%',
-          'GSEA Results: Pathways Significantly Enriched'
-      )
-    )
+    # Plot of the most significantly enriched pathway
+    most_sig_pathway = head(sig_gsea_result[order(pval),], 1)$pathway
+    pathway_title = str_to_title(tolower(str_split(most_sig_pathway, "%")[[1]][1]))
+    output$most_enriched_pathway <- renderPlot({
+      plotEnrichment(
+        go_pathways[[most_sig_pathway]],
+        gene_list
+      ) + labs(title=paste0("GSEA Enrichment Plot of ", pathway_title, " Pathway"))
+    })
 
     # TEXT (ON ALL PAGES) ###############################################################################################
     output$general_description <- renderUI({HTML(gen_description)})
