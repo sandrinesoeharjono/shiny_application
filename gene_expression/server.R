@@ -230,7 +230,7 @@ server <- function(input, output, session) {
 
     # Select first 10 & last 10 entries for plot
     filtRes = rbind(head(sig_gsea_result, n=10), tail(sig_gsea_result, n=10))
-    output$gsea_plot <- renderPlot({
+    output$gsea_nes_plot <- renderPlot({
       ggplot(filtRes, aes(reorder(pathway, NES), NES)) +
         geom_point(aes(fill = Enrichment, size = size), shape=21) +
         scale_fill_manual(values = colos) +
@@ -276,4 +276,8 @@ server <- function(input, output, session) {
     output$diff_exp_conclusion <- renderUI({HTML(deg_conclusion)})
 
     output$gsea_description <- renderUI({HTML(gsea_description)})
+
+    output$gsea_nes_plot_description <- renderUI({HTML(gsea_nes_plot_description)})
+
+    output$gsea_plot_description <- renderUI({HTML(gsea_plot_description)})
 }
