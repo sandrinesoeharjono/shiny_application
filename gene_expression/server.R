@@ -206,6 +206,8 @@ server <- function(input, output, session) {
     total_down = sum(gsea_result$Enrichment == "Down-regulated")
     colos <- setNames(c("firebrick2", "dodgerblue2"), c("Up-regulated", "Down-regulated"))
 
+    # Select first 10 & last 10 entries for plot
+    filtRes = rbind(head(sig_gsea_result, n=10), tail(sig_gsea_result, n=10))
     output$gsea_plot <- renderPlot({
       ggplot(filtRes, aes(reorder(pathway, NES), NES)) +
         geom_point( aes(fill = Enrichment, size = size), shape=21) +

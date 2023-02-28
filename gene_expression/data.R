@@ -148,15 +148,27 @@ pval = 0.05
 sig_gsea_result <- gsea_result %>% 
     #dplyr::filter(padj < !!pval) #%>% 
     arrange(dplyr::desc(NES))
-message(paste("Number of signficant gene sets =", nrow(sig_gsea_result)))
+print(paste("Number of signficant gene sets =", nrow(sig_gsea_result)))
 
-#message("Collapsing Pathways -----")
+# Rename table headers
+lookup <- c(
+    pval = "P-Value",
+    padj = "Adjusted P-Value",
+    size = "Size",
+    leadingEdge = "Leading Edge",
+    nMoreExtreme = "N(score>ES)"
+)
+sig_gsea_result <- sig_gsea_result %>%
+    separate_wider_delim(pathway, "%", names = c("Pathway Name", "Database", "Pathway ID")) %>%
+    rename(all_of(lookup))
+print(head(sig_gsea_result))
+
+#print("Collapsing Pathways -----")
 #concise_pathways = collapsePathways(data.table::as.data.table(sig_gsea_result),
-#                                    pathways = myGO,
+#                                    pathways = go_pathways,
 #                                    stats = gene_list)
 #sig_gsea_result = sig_gsea_result[sig_gsea_result$pathway %in% concise_pathways$mainPathways, ]
-#message(paste("Number of gene sets after collapsing =", nrow(sig_gsea_result)))
+#print(paste("Number of gene sets after collapsing =", nrow(sig_gsea_result)))
 
+# Add 'Enrichment' column to easily separate the pathways in up/down-regulated categories
 sig_gsea_result$Enrichment = ifelse(sig_gsea_result$NES > 0, "Up-regulated", "Down-regulated")
-filtRes = rbind(head(sig_gsea_result, n=10), tail(sig_gsea_result, n=10))
-print(filtRes)
