@@ -130,7 +130,7 @@ if (any(duplicated(names(gene_list)))){
 gene_list = sort(gene_list, decreasing = TRUE)
 
 # Load pathway data
-go_pathways <- gmtPathways("GSEATutorial/Human_GO_AllPathways_no_GO_iea_April_15_2013_symbol.gmt")
+go_pathways <- gmtPathways("Human_GO_AllPathways_no_GO_iea_April_15_2013_symbol.gmt")
 print(paste0("RUNNING GSEA ON ", length(gene_list), " GENES AND ", length(go_pathways), " GO PATHWAYS."))
 
 # Run GSEA analysis
