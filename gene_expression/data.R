@@ -18,7 +18,7 @@ set.seed(1234)
 # PREPARE DATA ###########################################################################################################
 
 # Load the GDS file
-data <- getGEO(filename='GDS5027_full.soft.gz')
+data <- getGEO(filename='data/GDS5027_full.soft.gz')
 
 # Meta() allows us to take a look at the dataset's metadata
 description <- Meta(data)$description
@@ -93,7 +93,7 @@ res <- lfcShrink(dds, coef = 2, res = res, type = 'normal')
 
 # Write results to file
 DEG_df = as.data.frame(res[order(res$padj),])
-write.csv(DEG_df, file = "DEG_results.csv")
+write.csv(DEG_df, file = "data/DEG_results.csv")
 
 # Generate normalized counts (median of ratios method)
 normalized_counts <- counts(dds, normalized = TRUE)
@@ -130,8 +130,7 @@ if (any(duplicated(names(gene_list)))){
 gene_list = sort(gene_list, decreasing = TRUE)
 
 # Load pathway data
-go_pathways <- gmtPathways("Human_GO_AllPathways_no_GO_iea_April_15_2013_symbol.gmt")
-print(paste0("RUNNING GSEA ON ", length(gene_list), " GENES AND ", length(go_pathways), " GO PATHWAYS."))
+go_pathways <- gmtPathways("data/Human_GO_AllPathways_no_GO_iea_April_15_2013_symbol.gmt")
 
 # Run GSEA analysis
 print("Running GSEA...")
