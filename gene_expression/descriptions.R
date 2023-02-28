@@ -76,29 +76,28 @@ deg_conclusion <- "<b>Next steps:</b><br>Due to the large number of genes (e.g. 
     To view this analysis, navigate to the next 'GSEA' tab!"
 
 # Description of GSEA
-gsea_description <- "<a href='https://www.gsea-msigdb.org/gsea/index.jsp'> GSEA </a> is computational method that determines whether a set of genes shows 
+gsea_description <- "<b>Gene Set Enrichment Analysis (GSEA)</b><br><br>
+    <a href='https://www.gsea-msigdb.org/gsea/index.jsp'> GSEA </a> is computational method that determines whether a set of genes shows 
     statistically significant, concordant differences between two biological states (e.g. phenotypes). It is typically used on mass spectrometry (MS)-based 
     proteomics or Next-Generation Sequencing (NGS) to identify insights into biological processes or pathways underlying a given phenotype.<br><br>
     <b>The analysis is performed by:</b><br>
     - Ranking all genes in the data set<br>
     - Identifying the rank positions of all members of the gene set in the ranked data set<br>
     - Calculating an enrichment score (ES) that represents the difference between the observed rankings and that which would be expected assuming a random rank distribution.
-    <br><br>Let's look at its results, summarized in one table:
-"
+    <br><br>Let's look at its results, when using the top 100 DE genes (from the previous tab) as a gene set:"
 
 # Description of NES comparison
-gsea_nes_plot_description <- "The following plot depicts the Normalized Enrichment Score (NES) for the top 10 and bottom 10
-pathways in this analysis' results. As we can see, the colour is directly related to the pathway size, while the colour represents
-the direction of the enrichment (+ve = up-regulated, -ve = down-regulated)."
-
-# Description of GSEA plot
-gsea_plot_description <- "The primary result of the gene set enrichment analysis is the 
+gsea_nes_plot_description <- "The primary result of the gene set enrichment analysis is the 
 <a href='http://www.gsea-msigdb.org/gsea/doc/GSEAUserGuideFrame.html'>enrichment score (ES)</a>, which reflects the degree 
 to which a gene set is overrepresented at the top or bottom of a ranked list of genes. GSEA calculates the ES by walking down the ranked 
 list of genes, increasing a running-sum statistic when a gene is in the gene set and decreasing it when it is not. The magnitude of the 
 increment depends on the correlation of the gene with the phenotype. The ES is the maximum deviation from zero encountered in walking 
 the list. A positive ES indicates gene set enrichment at the top of the ranked list; a negative ES indicates gene set enrichment at the 
-bottom of the ranked list.<br><br>
-As shown below, an enrichment plot provides a graphical view of the running ES of a pathway as the analysis walks down the ranked list.
+bottom of the ranked list.<br><br>The following plot depicts the Normalized Enrichment Score (NES) for the top 10 and bottom 10
+pathways in this analysis' results. As we can see, the colour is directly related to the pathway size, while the colour represents
+the direction of the enrichment (+ve = up-regulated, -ve = down-regulated)."
+
+# Description of GSEA plot
+gsea_plot_description <- "As shown below, an enrichment plot provides a graphical view of the running ES of a pathway as the analysis walks down the ranked list.
 The score at the peak of the plot (the score furthest from 0.0) is the ES for the gene set. Gene sets with a distinct peak at the 
 beginning or end of the ranked list are generally the most interesting."
