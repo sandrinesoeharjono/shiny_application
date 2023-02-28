@@ -48,4 +48,6 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
+# Local files on OSX
 *DS_Store*
+.vscode/
