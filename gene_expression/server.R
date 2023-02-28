@@ -241,7 +241,13 @@ server <- function(input, output, session) {
           x="Pathway",
           y="Normalized Enrichment Score",
           title=paste0("NES of Top & Bottom 10 Pathways\n(Total Pathways: Up=", total_up,", Down=", total_down, ")")
-        )
+        ) +
+      theme_bw() +
+      theme(
+        plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+        axis.title = element_text(size = 14, colour = "#555555")
+      )
     })
 
     # Plot of the most significantly enriched pathway
@@ -251,7 +257,17 @@ server <- function(input, output, session) {
       plotEnrichment(
         go_pathways[[most_sig_pathway]],
         gene_list
-      ) + labs(title=paste0("GSEA Enrichment Plot of ", pathway_title, " Pathway"))
+      ) + labs(
+        x="Rank",
+        y="Enrichment Score",
+        title=paste0("GSEA Enrichment Plot of ", pathway_title, " Pathway")
+      ) +
+      theme_bw() +
+      theme(
+        plot.title = element_text(hjust = 0.5, face = "bold", colour = "#555555", size = 17),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+        axis.title = element_text(size = 14, colour = "#555555")
+      )
     })
 
     # TEXT (ON ALL PAGES) ###############################################################################################
