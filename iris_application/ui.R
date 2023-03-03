@@ -6,7 +6,7 @@ library(readr)
 library(DT)
 
 # Load iris dataset
-data <- read_csv("iris.csv")
+data <- read_csv("iris.csv.gz")
 
 # Define UI of application
 ui <- fluidPage(
